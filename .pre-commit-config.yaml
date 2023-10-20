@@ -29,3 +29,12 @@ repos:
           - id: isort
             exclude: migrations
             args: [ --profile, black, --line-length=79 ]
+
+    - repo: local
+      hooks:
+          - id: export-requirements
+            name: Export requirements.txt
+            language: system
+            pass_filenames: false
+            entry: poetry export --without-hashes --output requirements.txt
+            files: ^(pyproject.toml|poetry.lock)$
