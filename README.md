@@ -13,7 +13,7 @@
 
 ### Cтэк технологий
 - Python 3.11
-- Django 4.2.6
+- Django 4.1
 - DjangoRESTframework
 - PostgreSQL
 - Nginx
