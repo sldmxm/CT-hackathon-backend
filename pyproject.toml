@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "ct-hackathon-backend"
+version = "0.1.0"
+description = ""
+authors = ["Maxim Solodilov <sldmxm@gmail.com>"]
+readme = "README.md"
+packages = [{include = "ct_hackathon_backend"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flake8 = "^6.1.0"
+black = "^23.10.0"
+django = "^4.2.6"
+isort = "^5.12.0"
+djangorestframework = "^3.14.0"
+pre-commit = "^3.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+target-version = ['py311']
+quote = 'single'
+include = '\.pyi?$'
+exclude = '''
+/(
+\.git
+| \.hg
+| \.mypy_cache
+| \.tox
+| \.venv
+| _build
+| buck-out
+| build
+| dist
+)/
+'''

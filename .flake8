@@ -1,0 +1,11 @@
+[flake8]
+exclude =
+    */migrations/,
+    .venv/,
+    .env/
+max-complexity = 10
+max-line-length = 79
+per-file-ignores =
+    */backend/settings.py:E501 F405 F403 F401
+    */__init__.py:F401 D104
+    */apps.py:F401 D100 D101
