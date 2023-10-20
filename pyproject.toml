@@ -8,12 +8,8 @@ packages = [{include = "ct_hackathon_backend"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-flake8 = "^6.1.0"
-black = "^23.10.0"
 django = "^4.2.6"
-isort = "^5.12.0"
 djangorestframework = "^3.14.0"
-pre-commit = "^3.5.0"
 
 [build-system]
 requires = ["poetry-core"]
