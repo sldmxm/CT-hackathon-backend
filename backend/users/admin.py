@@ -8,11 +8,11 @@ from .models import User
 class UserAdmin(UserAdmin):
     model = User
     list_display = (
-        'username',
+        'username', 'first_name', 'last_name',
     )
     list_filter = (
         'username',
     )
     search_fields = (
-        'username',
+        'username', 'first_name', 'last_name',
     )

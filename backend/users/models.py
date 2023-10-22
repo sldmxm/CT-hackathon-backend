@@ -8,10 +8,24 @@ class User(AbstractUser):
     username = models.CharField(
         max_length=settings.STANDARD_MAX_CHAR_FIELD_LENGTH,
         unique=True,
-        verbose_name='User name',
-        validators=[
+        verbose_name='Логин',
+        validators=(
             UnicodeUsernameValidator(),
-        ]
+        )
+    )
+    first_name = models.CharField(
+        max_length=settings.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        verbose_name='Имя',
+        validators=(
+            UnicodeUsernameValidator(),
+        )
+    )
+    last_name = models.CharField(
+        max_length=settings.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        verbose_name='Фамилия',
+        validators=(
+            UnicodeUsernameValidator(),
+        )
     )
 
     REQUIRED_FIELDS = ()
@@ -20,6 +34,6 @@ class User(AbstractUser):
         return self.username
 
     class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
         ordering = ('username',)
