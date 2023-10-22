@@ -1,7 +1,8 @@
-import requests
 from pprint import pprint
 
-endpoint = 'http://127.0.0.1:8000/api/students/'
+import requests
+
+endpoint = 'http://127.0.0.1:8000/api/v1/students/'
 
 get_response = requests.get(endpoint)
 
