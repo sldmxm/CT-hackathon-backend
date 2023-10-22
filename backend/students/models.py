@@ -1,4 +1,4 @@
-from core.enums import Limits as lim
+from core.constants import STANDARD_MAX_CHAR_FIELD_LENGTH, STUDENT_IMAGE_SIZE
 from django.db import models
 from PIL import Image
 
@@ -11,11 +11,11 @@ class Course(models.Model):
 
     title = models.CharField(
         'название курса',
-        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     slug = models.SlugField(
         'слаг курса',
-        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
         unique=True
     )
 
@@ -37,7 +37,7 @@ class HardSkill(models.Model):
 
     title = models.CharField(
         'навыки студента',
-        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
 
     class Meta:
@@ -81,25 +81,25 @@ class Student(models.Model):
 
     first_name = models.CharField(
         'имя студента',
-        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     last_name = models.CharField(
         'фамилия студента',
-        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     location = models.CharField(
         'местоположение',
-        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     education = models.CharField(
         'уровень образования',
         choices=StudentEducationLevel.choices,
         default=StudentEducationLevel.COMPLETED_SECONDARY,
-        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     specialty = models.CharField(
         'специальность',
-        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     course_list = models.ManyToManyField(
         Course,
@@ -117,7 +117,7 @@ class Student(models.Model):
         'статус поиска работы',
         choices=StudentStatus.choices,
         default=StudentStatus.ACTIVELY_SEARCHING,
-        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     image = models.ImageField(
         'фото студента',
@@ -142,9 +142,8 @@ class Student(models.Model):
         super().save()
         img = Image.open(self.image.path)
 
-        if img.height > lim.STUDENT_IMAGE_SIZE or \
-           img.width > lim.STUDENT_IMAGE_SIZE:
-            output_size = (lim.STUDENT_IMAGE_SIZE, lim.STUDENT_IMAGE_SIZE)
+        if img.height > STUDENT_IMAGE_SIZE or img.width > STUDENT_IMAGE_SIZE:
+            output_size = (STUDENT_IMAGE_SIZE, STUDENT_IMAGE_SIZE)
             img.thumbnail(output_size)
             img.save(self.image.path)
 
@@ -177,7 +176,7 @@ class StudentCourse(models.Model):
 
     def __str__(self):
         """Возвращает имя студента и пройденный им курс."""
-        return f'{self.student.__str__()} прошёл курс {self.course.title}'
+        return f'{self.student} прошёл курс {self.course.title}'
 
 
 class StudentHardSkill(models.Model):
@@ -208,4 +207,4 @@ class StudentHardSkill(models.Model):
 
     def __str__(self):
         """Возвращает имя студента и его навык."""
-        return f'{self.student.__str__()} может в {self.hard_skill.title}'
+        return f'{self.student} может в {self.hard_skill.title}'
