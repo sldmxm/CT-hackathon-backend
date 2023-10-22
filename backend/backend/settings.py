@@ -5,11 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MAX_LENGTH = 150
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-IMAGE_SIZE = 300
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', default='some_secret_key')
 

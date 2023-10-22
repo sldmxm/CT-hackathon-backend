@@ -1,4 +1,4 @@
-from django.conf import settings
+from core.enums import Limits as lim
 from django.db import models
 from PIL import Image
 
@@ -11,11 +11,11 @@ class Course(models.Model):
 
     title = models.CharField(
         'название курса',
-        max_length=settings.MAX_LENGTH,
+        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     slug = models.SlugField(
         'слаг курса',
-        max_length=settings.MAX_LENGTH,
+        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
         unique=True
     )
 
@@ -37,7 +37,7 @@ class HardSkill(models.Model):
 
     title = models.CharField(
         'навыки студента',
-        max_length=settings.MAX_LENGTH,
+        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
 
     class Meta:
@@ -81,25 +81,25 @@ class Student(models.Model):
 
     first_name = models.CharField(
         'имя студента',
-        max_length=settings.MAX_LENGTH,
+        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     last_name = models.CharField(
         'фамилия студента',
-        max_length=settings.MAX_LENGTH,
+        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     location = models.CharField(
         'местоположение',
-        max_length=settings.MAX_LENGTH,
+        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     education = models.CharField(
         'уровень образования',
         choices=StudentEducationLevel.choices,
         default=StudentEducationLevel.COMPLETED_SECONDARY,
-        max_length=settings.MAX_LENGTH,
+        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     specialty = models.CharField(
         'специальность',
-        max_length=settings.MAX_LENGTH,
+        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     course_list = models.ManyToManyField(
         Course,
@@ -117,7 +117,7 @@ class Student(models.Model):
         'статус поиска работы',
         choices=StudentStatus.choices,
         default=StudentStatus.ACTIVELY_SEARCHING,
-        max_length=settings.MAX_LENGTH,
+        max_length=lim.STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     image = models.ImageField(
         'фото студента',
@@ -142,8 +142,9 @@ class Student(models.Model):
         super().save()
         img = Image.open(self.image.path)
 
-        if img.height > settings.IMAGE_SIZE or img.width > settings.IMAGE_SIZE:
-            output_size = (settings.IMAGE_SIZE, settings.IMAGE_SIZE)
+        if img.height > lim.STUDENT_IMAGE_SIZE or \
+           img.width > lim.STUDENT_IMAGE_SIZE:
+            output_size = (lim.STUDENT_IMAGE_SIZE, lim.STUDENT_IMAGE_SIZE)
             img.thumbnail(output_size)
             img.save(self.image.path)
 
