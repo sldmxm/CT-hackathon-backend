@@ -10,6 +10,9 @@ packages = [{include = "ct_hackathon_backend"}]
 python = "^3.11"
 django = "4.1"
 djangorestframework = "^3.14.0"
+pillow = "^10.1.0"
+python-dotenv = "^1.0.0"
+requests = "^2.31.0"
 
 [build-system]
 requires = ["poetry-core"]
