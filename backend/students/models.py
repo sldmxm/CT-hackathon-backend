@@ -1,6 +1,10 @@
-from core.constants import STANDARD_MAX_CHAR_FIELD_LENGTH, STUDENT_IMAGE_SIZE
 from django.db import models
 from PIL import Image
+
+from backend.constants import (
+    STANDARD_MAX_CHAR_FIELD_LENGTH,
+    STUDENT_IMAGE_SIZE,
+)
 
 
 class Course(models.Model):
