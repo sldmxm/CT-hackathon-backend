@@ -27,7 +27,7 @@ class Vacancy(models.Model):
         null=True,
         blank=True,
         validators=(
-            MinValueValidator(0),
+            MinValueValidator(settings.MIN_SALARY),
         ),
     )
     salary_to = models.IntegerField(
@@ -35,7 +35,7 @@ class Vacancy(models.Model):
         null=True,
         blank=True,
         validators=(
-            MinValueValidator(0),
+            MinValueValidator(settings.MIN_SALARY),
         )
     )
     city = models.CharField(
@@ -134,7 +134,4 @@ class VacancyStudents(models.Model):
         verbose_name_plural = 'претенденты'
 
     def __str__(self):
-        return f'''
-        {self.student.first_name} {self.student.last_name}
-        - {self.vacancy.title}
-        '''
+        return f'{self.student} - {self.vacancy}'
