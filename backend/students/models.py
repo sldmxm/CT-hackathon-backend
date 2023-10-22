@@ -125,7 +125,7 @@ class Student(models.Model):
     )
     image = models.ImageField(
         'фото студента',
-        upload_to='students/images',
+        upload_to='students_photos/',
         blank=True,
     )
 
@@ -138,18 +138,20 @@ class Student(models.Model):
         """Возвращает полное имя студента."""
         return f'{self.first_name} {self.last_name}'
 
-    def save(self):
+    def save(self, *args, **kwargs):
         """Переопределённый метод.
 
         Сжимает изображение пользователя с сохранением пропорций.
         """
-        super().save()
-        img = Image.open(self.image.path)
-
-        if img.height > STUDENT_IMAGE_SIZE or img.width > STUDENT_IMAGE_SIZE:
-            output_size = (STUDENT_IMAGE_SIZE, STUDENT_IMAGE_SIZE)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+        super(Student, self).save(*args, **kwargs)
+        if self.image:
+            img = Image.open(self.image.path)
+            if (
+                    img.height > STUDENT_IMAGE_SIZE
+                    or img.width > STUDENT_IMAGE_SIZE
+            ):
+                img.thumbnail((STUDENT_IMAGE_SIZE, STUDENT_IMAGE_SIZE))
+                img.save(self.image.path)
 
 
 class StudentCourse(models.Model):

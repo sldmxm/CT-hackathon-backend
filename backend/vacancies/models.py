@@ -1,15 +1,16 @@
-from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from students.models import Student
 from users.models import User
+
+import backend.constants as constants
 
 
 class Vacancy(models.Model):
     """Модель для хранения вакансий."""
 
     title = models.CharField(
-        max_length=settings.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=constants.STANDARD_MAX_CHAR_FIELD_LENGTH,
         verbose_name='название',
     )
     author = models.ForeignKey(
@@ -27,7 +28,7 @@ class Vacancy(models.Model):
         null=True,
         blank=True,
         validators=(
-            MinValueValidator(settings.MIN_SALARY),
+            MinValueValidator(constants.MIN_SALARY),
         ),
     )
     salary_to = models.IntegerField(
@@ -35,17 +36,17 @@ class Vacancy(models.Model):
         null=True,
         blank=True,
         validators=(
-            MinValueValidator(settings.MIN_SALARY),
+            MinValueValidator(constants.MIN_SALARY),
         )
     )
     city = models.CharField(
         verbose_name='город',
-        max_length=settings.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=constants.STANDARD_MAX_CHAR_FIELD_LENGTH,
         blank=True,
     )
     company = models.CharField(
         verbose_name='компания',
-        max_length=settings.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=constants.STANDARD_MAX_CHAR_FIELD_LENGTH,
         blank=True,
     )
 
@@ -88,12 +89,12 @@ class Filter(models.Model):
         verbose_name='вакансия',
     )
     field_name = models.CharField(
-        max_length=settings.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=constants.STANDARD_MAX_CHAR_FIELD_LENGTH,
         choices=FILTER_FIELDS_CHOICES,
         verbose_name='поле фильтра',
     )
     filter_value = models.CharField(
-        max_length=settings.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        max_length=constants.STANDARD_MAX_CHAR_FIELD_LENGTH,
         verbose_name='значение фильтра',
     )
 
