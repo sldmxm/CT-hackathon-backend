@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Course, HardSkill, Student, StudentCourse, StudentHardSkill
+from .models import Course, Student, StudentCourse, StudentHardSkill
 
 
 class StudentCourseInline(admin.TabularInline):
@@ -27,7 +27,7 @@ class StudentAdmin(admin.ModelAdmin):
         'id',
         'first_name',
         'last_name',
-        'location',
+        'current_location',
         'education',
         'display_courses',
         'display_hard_skills',
@@ -36,18 +36,17 @@ class StudentAdmin(admin.ModelAdmin):
     )
     list_filter = (
         'last_name',
-        'location',
+        'current_location',
         'course_list',
         'status',
     )
 
     search_fields = (
         r'^last_name',
-        r'^location',
+        r'^current_location',
         r'^course_list',
-        r'^course_list__title'
-        r'^course_list__slug'
-        r'^hard_skills__title'
+        r'^course_list__name'
+        r'^hard_skills__name'
         'status',
     )
 
@@ -58,12 +57,12 @@ class StudentAdmin(admin.ModelAdmin):
 
     def display_courses(self, obj):
         """Отображает М2М поле модели курсов."""
-        return ', '.join([course.title for course in obj.course_list.all()])
+        return ', '.join([course.name for course in obj.course_list.all()])
 
     def display_hard_skills(self, obj):
         """Отображает М2М поле модели навыков."""
         return ', '.join(
-            [hard_skill.title for hard_skill in obj.hard_skills.all()]
+            [hard_skill.name for hard_skill in obj.hard_skills.all()]
         )
 
 
@@ -71,16 +70,16 @@ class StudentAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     """Админка для модели курсов."""
 
-    list_display = ('id', 'title', 'slug')
-    search_fields = (r'^title', r'^slug')
+    list_display = ('id', 'name', )
+    search_fields = (r'^name', )
 
 
-@admin.register(HardSkill)
-class HardSkillAdmin(admin.ModelAdmin):
-    """Админка для модели навыков."""
-
-    list_display = ('id', 'title')
-    search_fields = ('title',)
+# @admin.register(HardSkill)
+# class HardSkillAdmin(admin.ModelAdmin):
+#     """Админка для модели навыков."""
+#
+#     list_display = ('id', 'name')
+#     search_fields = ('name',)
 
 
 @admin.register(StudentCourse)
@@ -88,7 +87,7 @@ class StudentCourseAdmin(admin.ModelAdmin):
     """Админка для модели студент-курс."""
 
     list_display = ('student', 'course')
-    search_fields = (r'^student__last_name', r'^course__title',)
+    search_fields = (r'^student__last_name', r'^course__name',)
     list_filter = ('student__last_name',)
 
 
@@ -97,5 +96,5 @@ class StudentHardSkillAdmin(admin.ModelAdmin):
     """Админка для модели студент-навык."""
 
     list_display = ('student', 'hard_skill')
-    search_fields = (r'^student__last_name', r'^hard_skill__title',)
+    search_fields = (r'^student__last_name', r'^hard_skill__name',)
     list_filter = ('student__last_name',)
