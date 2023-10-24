@@ -1,36 +1,45 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from PIL import Image
+from utils.image_utils import resize_image
+from utils.validators import validate_telegram_username
 
 from backend.constants import (
+    EDUCATION_LEVEL_CHOICES,
+    EXPERIENCE_CHOICES,
+    MIN_SALARY,
     STANDARD_MAX_CHAR_FIELD_LENGTH,
-    STUDENT_IMAGE_SIZE,
+    WORK_SEEKING_STATUS_CHOICES,
 )
 
 
-class Course(models.Model):
+class ReferenceModel(models.Model):
+    name = models.CharField(
+        'название',
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
+        unique=True,
+    )
+    description = models.TextField(
+        blank=True,
+        null=True,
+    )
+
+    class Meta:
+        abstract = True,
+        ordering = ('id',)
+
+    def __str__(self):
+        return self.name
+
+
+class Course(ReferenceModel):
     """Модель курсов, которые прошел студент.
 
     Задействована в М2М модели StudentCourse.
     """
 
-    title = models.CharField(
-        'название курса',
-        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
-    )
-    slug = models.SlugField(
-        'слаг курса',
-        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
-        unique=True
-    )
-
     class Meta:
-        ordering = ('id',)
         verbose_name = 'курс'
         verbose_name_plural = 'курсы'
-
-    def __str__(self):
-        """Возвращает название курса."""
-        return self.title
 
 
 class HardSkill(models.Model):
@@ -39,98 +48,175 @@ class HardSkill(models.Model):
     Задействована в М2М модели StudentHardSkills.
     """
 
-    title = models.CharField(
-        'навыки студента',
-        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
-    )
-
     class Meta:
-        ordering = ('title',)
         verbose_name = 'навык'
         verbose_name_plural = 'навыки'
 
-    def __str__(self):
-        """Название навыка."""
-        return self.title
+
+class Location(models.Model):
+    class Meta:
+        verbose_name = 'местонахождение'
+        verbose_name_plural = 'местонахождения'
 
 
-class StudentEducationLevel(models.TextChoices):
-    """Вспомогательный класс.
-
-    Выбор уровня образования студента из ограниченного списка.
-    """
-
-    INCOMPLETE_SECONDARY = 'НЕОКОНЧЕННОЕ СРЕДНЕЕ'
-    COMPLETED_SECONDARY = 'СРЕДНЕЕ'
-    SECONDARY_PROFESSIONAL = 'СРЕДНЕЕ ПРОФЕССИОНАЛЬНОЕ'
-    INCOMPLETE_HIGHER = 'НЕОКОНЧЕННОЕ ВЫСШЕЕ'
-    COMPLETED_HIGHER = 'ВЫСШЕЕ'
+class Specialty(models.Model):
+    class Meta:
+        verbose_name = 'специальность'
+        verbose_name_plural = 'специальности'
 
 
-class StudentStatus(models.TextChoices):
-    """Вспомогательный класс.
+class Employment(models.Model):
+    class Meta:
+        verbose_name = 'вид занятости'
+        verbose_name_plural = 'виды занятости'
 
-    Для выбора статуса поиска работы студентом.
-    """
 
-    ACTIVELY_SEARCHING = 'АКТИВНО ИЩУ РАБОТУ'
-    INCOMING_OFFERS = 'РАССМАТРИВАЮ ВХОДЯЩИЕ ПРЕДЛОЖЕНИЯ'
-    INTERNSHIP_ONLY = 'РАССМАТРИВАЮ ТОЛЬКО СТАЖИРОВКИ'
-    NOT_SEARCHING = 'НЕ ИЩУ РАБОТУ'
-    EMPLOYED = 'ТРУДОУСТРОЕН'
+class WorkSchedule(models.Model):
+    class Meta:
+        verbose_name = 'график работы'
+        verbose_name_plural = 'графики работы'
+
+
+class WorkFormat(models.Model):
+    class Meta:
+        verbose_name = 'формат работы'
+        verbose_name_plural = 'форматы работы'
+
+
+class OfficeFormat(models.Model):
+    class Meta:
+        verbose_name = 'формат места работы'
+        verbose_name_plural = 'форматы места работы'
 
 
 class Student(models.Model):
     """Модель для хранения информации о студенте."""
 
     first_name = models.CharField(
-        'имя студента',
+        'имя',
         max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     last_name = models.CharField(
-        'фамилия студента',
+        'фамилия',
         max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
-    location = models.CharField(
-        'местоположение',
+    email = models.EmailField(
+        'e-mail',
+        unique=True,
+    )
+    telegram_username = models.CharField(
+        'телеграм',
         max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
+        blank=True,
+        null=True,
+        validators=[validate_telegram_username],
     )
-    education = models.CharField(
-        'уровень образования',
-        choices=StudentEducationLevel.choices,
-        default=StudentEducationLevel.COMPLETED_SECONDARY,
-        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
+    salary_from = models.IntegerField(
+        verbose_name='зарплата от',
+        null=True,
+        blank=True,
+        validators=(
+            MinValueValidator(MIN_SALARY),
+        ),
     )
-    specialty = models.CharField(
-        'специальность',
-        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
-    )
-    course_list = models.ManyToManyField(
-        Course,
-        related_name='student',
-        through='StudentCourse',
-        verbose_name='курсы студента',
-    )
-    hard_skills = models.ManyToManyField(
-        HardSkill,
-        related_name='student',
-        through='StudentHardSkill',
-        verbose_name='навыки студента',
-    )
-    status = models.CharField(
-        'статус поиска работы',
-        choices=StudentStatus.choices,
-        default=StudentStatus.ACTIVELY_SEARCHING,
-        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
+    salary_to = models.IntegerField(
+        verbose_name='зарплата до',
+        null=True,
+        blank=True,
+        validators=(
+            MinValueValidator(MIN_SALARY),
+        )
     )
     image = models.ImageField(
-        'фото студента',
+        'фото',
         upload_to='students_photos/',
         blank=True,
     )
+    activity_level = models.PositiveSmallIntegerField(
+        'активность',
+        help_text='От 0 до 100',
+        default=50,
+        validators=[MaxValueValidator(100)],
+        blank=True,
+        null=True,
+    )
+    created_at = models.DateTimeField(
+        verbose_name='дата создания',
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(
+        verbose_name='дата изменения',
+        auto_now=True,
+    )
+    current_location = models.ForeignKey(
+        Location,
+        on_delete=models.RESTRICT,
+        related_name='students',
+        verbose_name='местонахождение',
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
+        blank=True,
+    )
+
+    #  Поля многие-ко-многим
+    location_to_relocate = models.ManyToManyField(
+        Location,
+        verbose_name='местонахождения для переезда',
+    )
+    course_list = models.ManyToManyField(
+        Course,
+        through='StudentCourse',
+        verbose_name='курсы',
+    )
+    hard_skills = models.ManyToManyField(
+        HardSkill,
+        through='StudentHardSkill',
+        verbose_name='навыки',
+    )
+    specialty = models.ManyToManyField(
+        Specialty,
+        related_name='students',
+        verbose_name='специальность',
+    )
+    employment = models.ManyToManyField(
+        Employment,
+        related_name='students',
+        verbose_name='виды занятости',
+    )
+    work_schedule = models.ManyToManyField(
+        WorkSchedule,
+        related_name='students',
+        verbose_name='графики работы',
+    )
+    work_format = models.ManyToManyField(
+        WorkFormat,
+        related_name='students',
+        verbose_name='форматы работы',
+    )
+    office_format = models.ManyToManyField(
+        OfficeFormat,
+        related_name='students',
+        verbose_name='форматы места работы',
+    )
+
+    # Поля с определёнными значениями
+    education = models.PositiveSmallIntegerField(
+        'уровень образования',
+        choices=EDUCATION_LEVEL_CHOICES,
+    )
+    status = models.CharField(
+        'статус поиска работы',
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
+        choices=WORK_SEEKING_STATUS_CHOICES,
+    )
+    work_experience = models.DecimalField(
+        'опыт работы',
+        max_digits=2,
+        decimal_places=1,
+        choices=EXPERIENCE_CHOICES,
+    )
 
     class Meta:
-        ordering = ('id',)
+        ordering = ('-updated_at',)
         verbose_name = 'студент'
         verbose_name_plural = 'студенты'
 
@@ -145,13 +231,7 @@ class Student(models.Model):
         """
         super(Student, self).save(*args, **kwargs)
         if self.image:
-            img = Image.open(self.image.path)
-            if (
-                    img.height > STUDENT_IMAGE_SIZE
-                    or img.width > STUDENT_IMAGE_SIZE
-            ):
-                img.thumbnail((STUDENT_IMAGE_SIZE, STUDENT_IMAGE_SIZE))
-                img.save(self.image.path)
+            resize_image(self.image.path)
 
 
 class StudentCourse(models.Model):
@@ -182,7 +262,7 @@ class StudentCourse(models.Model):
 
     def __str__(self):
         """Возвращает имя студента и пройденный им курс."""
-        return f'{self.student} прошёл курс {self.course.title}'
+        return f'{self.student} прошёл курс {self.course.name}'
 
 
 class StudentHardSkill(models.Model):
@@ -213,4 +293,4 @@ class StudentHardSkill(models.Model):
 
     def __str__(self):
         """Возвращает имя студента и его навык."""
-        return f'{self.student} может в {self.hard_skill.title}'
+        return f'{self.student} может в {self.hard_skill.name}'
