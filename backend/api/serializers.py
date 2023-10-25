@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
-from students.models import Course, HardSkill, Student, StudentCourse
+from students.models import Course, HardSkill, Student
+
+# StudentCourse
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -19,22 +20,22 @@ class HardSkillSerializer(serializers.ModelSerializer):
         fields = ('title',)
 
 
-class StudentCourseSerializer(serializers.ModelSerializer):
-    """Сериализация курсов студента."""
-
-    id = serializers.ReadOnlyField(source='course.id')
-    title = serializers.ReadOnlyField(source='course.title')
-    slug = serializers.ReadOnlyField(source='course.slug')
-
-    class Meta:
-        model = StudentCourse
-        fields = ('id', 'title', 'slug')
-        validators = (
-            UniqueTogetherValidator(
-                queryset=StudentCourse.objects.all(),
-                fields=('student', 'course',)
-            ),
-        )
+# class StudentCourseSerializer(serializers.ModelSerializer):
+#     """Сериализация курсов студента."""
+#
+#     id = serializers.ReadOnlyField(source='course.id')
+#     title = serializers.ReadOnlyField(source='course.title')
+#     slug = serializers.ReadOnlyField(source='course.slug')
+#
+#     class Meta:
+#         model = StudentCourse
+#         fields = ('id', 'title', 'slug')
+#         validators = (
+#             UniqueTogetherValidator(
+#                 queryset=StudentCourse.objects.all(),
+#                 fields=('student', 'course',)
+#             ),
+#         )
 
 
 class StudentSerializer(serializers.ModelSerializer):
