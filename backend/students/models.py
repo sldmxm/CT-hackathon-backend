@@ -65,12 +65,6 @@ class Specialty(models.Model):
         verbose_name_plural = 'специальности'
 
 
-class Employment(models.Model):
-    class Meta:
-        verbose_name = 'вид занятости'
-        verbose_name_plural = 'виды занятости'
-
-
 class WorkSchedule(models.Model):
     class Meta:
         verbose_name = 'график работы'
@@ -118,14 +112,6 @@ class Student(models.Model):
         validators=(
             MinValueValidator(MIN_SALARY),
         ),
-    )
-    salary_to = models.IntegerField(
-        verbose_name='зарплата до',
-        null=True,
-        blank=True,
-        validators=(
-            MinValueValidator(MIN_SALARY),
-        )
     )
     image = models.ImageField(
         'фото',
@@ -176,11 +162,6 @@ class Student(models.Model):
         Specialty,
         related_name='students',
         verbose_name='специальность',
-    )
-    employment = models.ManyToManyField(
-        Employment,
-        related_name='students',
-        verbose_name='виды занятости',
     )
     work_schedule = models.ManyToManyField(
         WorkSchedule,

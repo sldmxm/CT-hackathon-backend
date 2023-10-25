@@ -2,7 +2,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from students.models import (
     Course,
-    Employment,
     HardSkill,
     Location,
     OfficeFormat,
@@ -122,12 +121,6 @@ class Vacancy(models.Model):
     hard_skill = models.ManyToManyField(
         HardSkill,
         verbose_name='навыки',
-        blank=True,
-        related_name='vacancies',
-    )
-    employment = models.ManyToManyField(
-        Employment,
-        verbose_name='вид занятости',
         blank=True,
         related_name='vacancies',
     )
