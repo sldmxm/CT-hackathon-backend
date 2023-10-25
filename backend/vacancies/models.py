@@ -250,6 +250,18 @@ class VacancyStudents(models.Model):
         verbose_name='позиция в канбане',
         default=0,
     )
+    created_at = models.DateTimeField(
+        verbose_name='дата создания',
+        auto_now_add=True,
+        null=False,
+        blank=False,
+    )
+    updated_at = models.DateTimeField(
+        verbose_name='дата изменения',
+        auto_now=True,
+        null=False,
+        blank=False,
+    )
 
     class Meta:
         ordering = ('id',)
