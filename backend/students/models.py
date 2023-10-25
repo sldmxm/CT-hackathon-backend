@@ -118,6 +118,18 @@ class Student(models.Model):
         upload_to='students_photos/',
         blank=True,
     )
+    portfolio_link = models.URLField(
+        'ссылка на портфолио',
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
+        blank=True,
+        null=True,
+    )
+    resume_link = models.URLField(
+        'ссылка на резюме',
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
+        blank=True,
+        null=True,
+    )
     activity_level = models.PositiveSmallIntegerField(
         'активность',
         help_text='От 0 до 100',
@@ -150,12 +162,12 @@ class Student(models.Model):
     )
     course_list = models.ManyToManyField(
         Course,
-        through='StudentCourse',
+        # through='StudentCourse',
         verbose_name='курсы',
     )
     hard_skills = models.ManyToManyField(
         HardSkill,
-        through='StudentHardSkill',
+        # through='StudentHardSkill',
         verbose_name='навыки',
     )
     specialty = models.ManyToManyField(
@@ -215,63 +227,63 @@ class Student(models.Model):
             resize_image(self.image.path)
 
 
-class StudentCourse(models.Model):
-    """Модель для связи студентов и курсов."""
+# class StudentCourse(models.Model):
+#     """Модель для связи студентов и курсов."""
+#
+#     student = models.ForeignKey(
+#         Student,
+#         on_delete=models.CASCADE,
+#         related_name='courses',
+#         verbose_name='студент курса'
+#     )
+#     course = models.ForeignKey(
+#         Course,
+#         on_delete=models.CASCADE,
+#         related_name='students',
+#         verbose_name='пройденные курсы'
+#     )
+#
+#     class Meta:
+#         verbose_name = 'курс студента'
+#         verbose_name_plural = 'курсы студента'
+#         constraints = (
+#             models.UniqueConstraint(
+#                 fields=('student', 'course'),
+#                 name='unique_student_course'
+#             ),
+#         )
+#
+#     def __str__(self):
+#         """Возвращает имя студента и пройденный им курс."""
+#         return f'{self.student} прошёл курс {self.course.name}'
 
-    student = models.ForeignKey(
-        Student,
-        on_delete=models.CASCADE,
-        related_name='courses',
-        verbose_name='студент курса'
-    )
-    course = models.ForeignKey(
-        Course,
-        on_delete=models.CASCADE,
-        related_name='students',
-        verbose_name='пройденные курсы'
-    )
 
-    class Meta:
-        verbose_name = 'курс студента'
-        verbose_name_plural = 'курсы студента'
-        constraints = (
-            models.UniqueConstraint(
-                fields=('student', 'course'),
-                name='unique_student_course'
-            ),
-        )
-
-    def __str__(self):
-        """Возвращает имя студента и пройденный им курс."""
-        return f'{self.student} прошёл курс {self.course.name}'
-
-
-class StudentHardSkill(models.Model):
-    """Модель для связи студентов и навыков."""
-
-    student = models.ForeignKey(
-        Student,
-        on_delete=models.PROTECT,
-        related_name='skills',
-        verbose_name='студент'
-    )
-    hard_skill = models.ForeignKey(
-        HardSkill,
-        on_delete=models.PROTECT,
-        related_name='students',
-        verbose_name='навык студента'
-    )
-
-    class Meta:
-        verbose_name = 'навык студента'
-        verbose_name_plural = 'навыки студента'
-        constraints = (
-            models.UniqueConstraint(
-                fields=('student', 'hard_skill'),
-                name='unique_student_hard_skill'
-            ),
-        )
-
-    def __str__(self):
-        """Возвращает имя студента и его навык."""
-        return f'{self.student} может в {self.hard_skill.name}'
+# class StudentHardSkill(models.Model):
+#     """Модель для связи студентов и навыков."""
+#
+#     student = models.ForeignKey(
+#         Student,
+#         on_delete=models.PROTECT,
+#         related_name='skills',
+#         verbose_name='студент'
+#     )
+#     hard_skill = models.ForeignKey(
+#         HardSkill,
+#         on_delete=models.PROTECT,
+#         related_name='students',
+#         verbose_name='навык студента'
+#     )
+#
+#     class Meta:
+#         verbose_name = 'навык студента'
+#         verbose_name_plural = 'навыки студента'
+#         constraints = (
+#             models.UniqueConstraint(
+#                 fields=('student', 'hard_skill'),
+#                 name='unique_student_hard_skill'
+#             ),
+#         )
+#
+#     def __str__(self):
+#         """Возвращает имя студента и его навык."""
+#         return f'{self.student} может в {self.hard_skill.name}'
