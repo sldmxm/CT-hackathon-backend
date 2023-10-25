@@ -42,7 +42,7 @@ class Course(ReferenceModel):
         verbose_name_plural = 'курсы'
 
 
-class HardSkill(models.Model):
+class HardSkill(ReferenceModel):
     """Модель навыков, которыми обладает студент (его hard skills).
 
     Задействована в М2М модели StudentHardSkills.
@@ -53,31 +53,31 @@ class HardSkill(models.Model):
         verbose_name_plural = 'навыки'
 
 
-class Location(models.Model):
+class Location(ReferenceModel):
     class Meta:
         verbose_name = 'местонахождение'
         verbose_name_plural = 'местонахождения'
 
 
-class Specialty(models.Model):
+class Specialty(ReferenceModel):
     class Meta:
         verbose_name = 'специальность'
         verbose_name_plural = 'специальности'
 
 
-class WorkSchedule(models.Model):
+class WorkSchedule(ReferenceModel):
     class Meta:
         verbose_name = 'график работы'
         verbose_name_plural = 'графики работы'
 
 
-class WorkFormat(models.Model):
+class WorkFormat(ReferenceModel):
     class Meta:
         verbose_name = 'формат работы'
         verbose_name_plural = 'форматы работы'
 
 
-class OfficeFormat(models.Model):
+class OfficeFormat(ReferenceModel):
     class Meta:
         verbose_name = 'формат места работы'
         verbose_name_plural = 'форматы места работы'
