@@ -71,7 +71,7 @@ class Vacancy(models.Model):
     )
     location = models.ManyToManyField(
         Location,
-        verbose_name='местонахождения для переезда',
+        verbose_name='местонахождения',
     )
     company = models.CharField(
         verbose_name='компания',
@@ -215,7 +215,7 @@ class Kanban(models.Model):
 
 
 class VacancyStudents(models.Model):
-    """Модель для хранения оценок студентов на вакансию."""
+    """Модель для хранения информации о претендентах на вакансии."""
 
     student = models.ForeignKey(
         Student,
@@ -249,6 +249,18 @@ class VacancyStudents(models.Model):
         related_name='students',
         verbose_name='позиция в канбане',
         default=0,
+    )
+    created_at = models.DateTimeField(
+        verbose_name='дата создания',
+        auto_now_add=True,
+        null=False,
+        blank=False,
+    )
+    updated_at = models.DateTimeField(
+        verbose_name='дата изменения',
+        auto_now=True,
+        null=False,
+        blank=False,
     )
 
     class Meta:
