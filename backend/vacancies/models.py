@@ -48,6 +48,7 @@ class Vacancy(models.Model):
         User,
         verbose_name='автор',
         on_delete=models.CASCADE,
+        related_name='vacancies',
     )
     description = models.TextField(
         verbose_name='описание',
@@ -140,10 +141,8 @@ class Vacancy(models.Model):
         Course,
         verbose_name='курсы',
     )
-    work_experience = models.DecimalField(
+    work_experience = models.PositiveSmallIntegerField(
         'опыт работы',
-        max_digits=2,
-        decimal_places=1,
         choices=constants.EXPERIENCE_CHOICES,
     )
     education = models.PositiveSmallIntegerField(
@@ -158,6 +157,15 @@ class Vacancy(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def display_work_experience(self):
+        return dict(constants.EXPERIENCE_CHOICES).get(
+            self.work_experience, None)
+
+    @property
+    def display_education(self):
+        return constants.EDUCATION_LEVEL_CHOICES[self.education][1]
 
     def save(self, *args, **kwargs):
         """Сжимает изображение пользователя с сохранением пропорций."""

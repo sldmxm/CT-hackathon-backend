@@ -15,15 +15,20 @@ schema_view = get_schema_view(
         license=openapi.License(name="BSD License"),
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=[permissions.AllowAny],
 )
 
 
 urlpatterns = [
     path(
-        'swagger/',
+        'api/docs/swagger/',
         schema_view.with_ui('swagger', cache_timeout=0),
         name='schema-swagger-ui'
+    ),
+    path(
+        'api/docs/redoc/',
+        schema_view.with_ui('redoc', cache_timeout=0),
+        name='schema-redoc'
     ),
     path('api/', include('api.urls', namespace='api')),
     path('admin/', admin.site.urls),

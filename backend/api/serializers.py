@@ -1,64 +1,130 @@
 from rest_framework import serializers
-from students.models import Course, HardSkill, Student
+from students.models import (
+    Course,
+    HardSkill,
+    Location,
+    OfficeFormat,
+    Specialty,
+    Student,
+    WorkFormat,
+    WorkSchedule,
+)
+from vacancies.models import Grade, Vacancy
 
-# StudentCourse
+
+class BaseNameSerializer(serializers.ModelSerializer):
+    """Базовый сериализатор для моделей с полем 'name'."""
+
+    class Meta:
+        fields = ('name',)
 
 
-class CourseSerializer(serializers.ModelSerializer):
+class LocationSerializer(BaseNameSerializer):
+    """Сериализация местоположений."""
+
+    class Meta(BaseNameSerializer.Meta):
+        model = Location
+
+
+class GradeSerializer(BaseNameSerializer):
+    """Сериализация грейдов."""
+
+    class Meta(BaseNameSerializer.Meta):
+        model = Grade
+
+
+class WorkScheduleSerializer(BaseNameSerializer):
+    """Сериализация расписаний работы."""
+
+    class Meta(BaseNameSerializer.Meta):
+        model = WorkSchedule
+
+
+class WorkFormatSerializer(BaseNameSerializer):
+    """Сериализация форматов работы."""
+
+    class Meta(BaseNameSerializer.Meta):
+        model = WorkFormat
+
+
+class OfficeFormatSerializer(BaseNameSerializer):
+    """Сериализация форматов офиса."""
+
+    class Meta(BaseNameSerializer.Meta):
+        model = OfficeFormat
+
+
+class CourseSerializer(BaseNameSerializer):
     """Сериализация курсов."""
 
-    class Meta:
+    class Meta(BaseNameSerializer.Meta):
         model = Course
-        fields = ('id', 'title', 'slug')
 
 
-class HardSkillSerializer(serializers.ModelSerializer):
+class SpecialtySerializer(BaseNameSerializer):
     """Сериализация навыков."""
 
-    class Meta:
+    class Meta(BaseNameSerializer.Meta):
+        model = Specialty
+
+
+class HardSkillSerializer(BaseNameSerializer):
+    """Сериализация навыков."""
+
+    class Meta(BaseNameSerializer.Meta):
         model = HardSkill
-        fields = ('title',)
-
-
-# class StudentCourseSerializer(serializers.ModelSerializer):
-#     """Сериализация курсов студента."""
-#
-#     id = serializers.ReadOnlyField(source='course.id')
-#     title = serializers.ReadOnlyField(source='course.title')
-#     slug = serializers.ReadOnlyField(source='course.slug')
-#
-#     class Meta:
-#         model = StudentCourse
-#         fields = ('id', 'title', 'slug')
-#         validators = (
-#             UniqueTogetherValidator(
-#                 queryset=StudentCourse.objects.all(),
-#                 fields=('student', 'course',)
-#             ),
-#         )
 
 
 class StudentSerializer(serializers.ModelSerializer):
     """Сериализация студентов."""
 
-    course_list = CourseSerializer(many=True, required=True)
-    hard_skills = HardSkillSerializer(many=True, required=True)
+    work_experience = serializers.CharField(source='display_work_experience')
+    education = serializers.CharField(source='display_education')
+    status = serializers.CharField(source='display_status')
+
+    current_location = serializers.StringRelatedField()
+
+    work_schedule = WorkScheduleSerializer(many=True, required=True)
+    work_format = WorkFormatSerializer(many=True, required=True)
+    office_format = OfficeFormatSerializer(many=True, required=True)
+    specialty = SpecialtySerializer(many=True, required=True)
+    location_to_relocate = LocationSerializer(many=True, read_only=True)
+    course_list = CourseSerializer(many=True, read_only=True)
+    hard_skills = HardSkillSerializer(many=True, read_only=True)
     image = serializers.SerializerMethodField('get_image_url', read_only=True)
 
     class Meta:
         model = Student
-        fields = (
-            'id',
-            'first_name',
-            'last_name',
-            'location',
-            'education',
-            'specialty',
-            'course_list',
-            'hard_skills',
-            'status',
-            'image',
-        )
+        fields = '__all__'
+
+    def get_image_url(self, obj):
+        """Возвращает относительный путь изображения."""
+        if obj.image:
+            return obj.image.url
+        return None
+
+
+class VacancyViewSerializer(serializers.ModelSerializer):
+    """Сериализация вакансий."""
+
+    location = LocationSerializer(many=True, required=True)
+    grade = GradeSerializer(many=True, required=True)
+    work_schedule = WorkScheduleSerializer(many=True, required=True)
+    work_format = WorkFormatSerializer(many=True, required=True)
+    course_list = CourseSerializer(many=True, required=True)
+    hard_skill = HardSkillSerializer(many=True, required=True)
+
+    work_experience = serializers.CharField(source='display_work_experience')
+    education = serializers.CharField(source='display_education')
+
+    office_format = serializers.StringRelatedField()
+    specialty = serializers.StringRelatedField()
+
+    image = serializers.SerializerMethodField('get_image_url', read_only=True)
+
+    class Meta:
+        model = Vacancy
+        fields = '__all__'
 
     def get_image_url(self, obj):
         """Возвращает относительный путь изображения."""
