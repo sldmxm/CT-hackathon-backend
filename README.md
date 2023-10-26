@@ -20,7 +20,10 @@
 - Docker
 **/////// TO DO !!!! /////**
 
-### Правила [разработки](/docs/dev_rules.md) и [кодстайл](/docs/codestyle.md)
+### Документация
+- Правила [разработки](/docs/dev_rules.md) и [кодстайл](/docs/codestyle.md)
+
+- Полная документация по работе с API http://localhost/api/docs/redoc/ и http://localhost/api/docs/swagger/
 
 ### Разворачиваем проект локально:
 1. Склонируйте проект, перейдите в папку `/backend`
