@@ -35,5 +35,5 @@ repos:
             name: Export requirements.txt
             language: system
             pass_filenames: false
-            entry: poetry export --without-hashes --output requirements.txt
+            entry: poetry export --without-hashes --output backend/requirements.txt
             files: ^(pyproject.toml|poetry.lock)$
