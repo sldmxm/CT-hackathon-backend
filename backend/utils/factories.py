@@ -127,7 +127,9 @@ class VacancyFactory(DjangoModelFactory):
     class Meta:
         model = Vacancy
 
-    title = LazyFunction(fake.job)
+    specialty = LazyAttribute(
+        lambda _: random.choice(Specialty.objects.all()))
+    title = specialty
     description = LazyFunction(fake.text)
     company = LazyFunction(fake.company)
     is_published = LazyFunction(lambda: random.choice([True, False]))
