@@ -1,6 +1,15 @@
 from django.contrib import admin
 
-from .models import Course, Student
+from .models import (
+    Course,
+    HardSkill,
+    Location,
+    OfficeFormat,
+    Specialty,
+    Student,
+    WorkFormat,
+    WorkSchedule,
+)
 
 
 @admin.register(Student)
@@ -8,15 +17,17 @@ class StudentAdmin(admin.ModelAdmin):
     """Админка для модели студентов."""
 
     list_display = (
-        'id',
         'first_name',
         'last_name',
-        'current_location',
-        'education',
-        'display_courses',
-        'display_hard_skills',
-        'status',
+        'telegram_username',
         'image',
+        'activity_level',
+        'created_at',
+        'current_location',
+        'status',
+        'display_courses',
+        'work_experience',
+        'created_at',
     )
     list_filter = (
         'last_name',
@@ -34,25 +45,42 @@ class StudentAdmin(admin.ModelAdmin):
         'status',
     )
 
-    # inlines = (
-    # StudentCourseInline,
-    # StudentHardSkillsInline,
-    # )
-
     def display_courses(self, obj):
-        """Отображает М2М поле модели курсов."""
-        return ', '.join([course.name for course in obj.course_list.all()])
+        return ', '.join([course.name for course in obj.course_list.all()[:2]])
 
-    def display_hard_skills(self, obj):
-        """Отображает М2М поле модели навыков."""
-        return ', '.join(
-            [hard_skill.name for hard_skill in obj.hard_skills.all()]
-        )
+    display_courses.short_description = 'курсы'
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    """Админка для модели курсов."""
-
     list_display = ('id', 'name',)
-    search_fields = (r'^name',)
+
+
+@admin.register(HardSkill)
+class HardSkillAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+@admin.register(Location)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+@admin.register(Specialty)
+class SpecialtyAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+@admin.register(WorkSchedule)
+class WorkScheduleAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+@admin.register(WorkFormat)
+class WorkFormatAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+@admin.register(OfficeFormat)
+class OfficeFormatAdmin(admin.ModelAdmin):
+    list_display = ('name',)
