@@ -25,7 +25,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           source: "."
-          target: /app
+          target: /home/${{ secrets.USER }}/app
 
       - name: Building Docker image on remote server and deploy
         uses: appleboy/ssh-action@master
@@ -35,7 +35,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            cd /app/infra
+            cd /home/${{ secrets.USER }}/app/infra
             sudo rm -f .env
             touch .env
 
