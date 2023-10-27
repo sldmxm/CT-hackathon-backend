@@ -214,6 +214,7 @@ class Kanban(models.Model):
         'цвет',
         max_length=16,
         validators=[validate_color_format],
+        blank=True,
     )
 
     class Meta:
