@@ -14,7 +14,7 @@ jobs:
       - name: Debug info
         run: |
           pwd
-          ls ./backend/
+          ls -gla
           ls ./frontend/
           ls ./infra/
       - name: Uploading project files to remote server
