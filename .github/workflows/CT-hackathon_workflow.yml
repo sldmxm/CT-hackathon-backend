@@ -13,9 +13,10 @@ jobs:
     steps:
       - name: Debug info
         run: |
-          ls /backend/
-          ls /frontend/
-          ls /infra/
+          pwd
+          ls ./backend/
+          ls ./frontend/
+          ls ./infra/
       - name: Uploading project files to remote server
         uses: appleboy/scp-action@master
         with:
