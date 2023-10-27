@@ -35,7 +35,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            cd /home/${{ secrets.USER }}/app/infra
+            cd /app/infra
             sudo rm -f .env
             touch .env
 
