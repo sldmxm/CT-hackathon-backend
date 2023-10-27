@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 #   needs: tests
     steps:
+      - name: Debug info
+        run: |
+          ls backend
+          ls frontend
+          ls infra
       - name: Uploading project files to remote server
         uses: appleboy/scp-action@master
         with:
