@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 #   needs: tests
     steps:
-      - name: Debug info
-        run: |
-          pwd
-          ls -gla
-          ls ./frontend/
-          ls ./infra/
+#      - name: Debug info
+#        run: |
+#          pwd
+#          ls -gla
+#          ls ./frontend/
+#          ls ./infra/
       - name: Uploading project files to remote server
         uses: appleboy/scp-action@master
         with:
@@ -24,7 +24,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          source: "/backend/ /frontend/ /infra/"
+          source: "."
           target: /home/${{ secrets.USER }}/app
 
       - name: Building Docker image on remote server and deploy
