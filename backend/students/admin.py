@@ -22,7 +22,6 @@ class StudentAdmin(admin.ModelAdmin):
         'telegram_username',
         'image',
         'activity_level',
-        'created_at',
         'current_location',
         'status',
         'display_courses',
