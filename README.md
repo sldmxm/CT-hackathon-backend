@@ -37,6 +37,11 @@
     poetry install
     ```
 3. **/////// TO DO !!!! /////**
+Обновите субмодуль с фронтом
+   ```shell
+   git submodule init
+   git submodule update --remote
+   ```
 Разверните и запустите базу данных, используя postgres-local.yaml и docker compose.
     ```shell
     docker compose -f postgres-local.yaml up -d
