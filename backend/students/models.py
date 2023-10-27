@@ -159,16 +159,19 @@ class Student(models.Model):
     location_to_relocate = models.ManyToManyField(
         Location,
         verbose_name='местонахождения для переезда',
+        blank=True,
     )
     course_list = models.ManyToManyField(
         Course,
         # through='StudentCourse',
         verbose_name='курсы',
+        blank=True,
     )
     hard_skills = models.ManyToManyField(
         HardSkill,
         # through='StudentHardSkill',
         verbose_name='навыки',
+        blank=True,
     )
     specialty = models.ManyToManyField(
         Specialty,
@@ -179,33 +182,38 @@ class Student(models.Model):
         WorkSchedule,
         related_name='students',
         verbose_name='графики работы',
+        blank=True,
     )
     work_format = models.ManyToManyField(
         WorkFormat,
         related_name='students',
         verbose_name='форматы работы',
+        blank=True,
     )
     office_format = models.ManyToManyField(
         OfficeFormat,
         related_name='students',
         verbose_name='форматы места работы',
+        blank=True,
     )
 
     # Поля с определёнными значениями
     education = models.PositiveSmallIntegerField(
         'уровень образования',
         choices=EDUCATION_LEVEL_CHOICES,
+        blank=True,
     )
     status = models.CharField(
         'статус поиска работы',
         max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
         choices=WORK_SEEKING_STATUS_CHOICES,
+        blank=True,
     )
-    work_experience = models.DecimalField(
+    work_experience = models.PositiveSmallIntegerField(
         'опыт работы',
-        max_digits=2,
-        decimal_places=1,
         choices=EXPERIENCE_CHOICES,
+        blank=True,
+        null=True,
     )
 
     class Meta:
@@ -216,6 +224,20 @@ class Student(models.Model):
     def __str__(self):
         """Возвращает полное имя студента."""
         return f'{self.first_name} {self.last_name}'
+
+    @property
+    def display_work_experience(self):
+        return dict(EXPERIENCE_CHOICES).get(
+            self.work_experience, None)
+
+    @property
+    def display_education(self):
+        return EDUCATION_LEVEL_CHOICES[self.education][1]
+
+    @property
+    def display_status(self):
+        return dict(WORK_SEEKING_STATUS_CHOICES).get(
+            self.status, None)
 
     def save(self, *args, **kwargs):
         """Переопределённый метод.
