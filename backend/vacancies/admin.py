@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Filter, Vacancy, VacancyStudents
+from .models import Filter, Grade, Kanban, Vacancy, VacancyStudents
 
 
 class FilterInline(admin.TabularInline):
@@ -74,3 +74,14 @@ class VacancyStudentsAdmin(admin.ModelAdmin):
         queryset = super().get_queryset(request)
         queryset = queryset.select_related('student', 'vacancy')
         return queryset
+
+
+@admin.register(Grade)
+class GradeAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+@admin.register(Kanban)
+class KanbanAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order_number', 'color')
+    list_editable = ('order_number', 'color')

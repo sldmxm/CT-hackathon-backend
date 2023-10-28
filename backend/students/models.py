@@ -163,13 +163,11 @@ class Student(models.Model):
     )
     course_list = models.ManyToManyField(
         Course,
-        # through='StudentCourse',
         verbose_name='курсы',
         blank=True,
     )
     hard_skills = models.ManyToManyField(
         HardSkill,
-        # through='StudentHardSkill',
         verbose_name='навыки',
         blank=True,
     )
@@ -247,65 +245,3 @@ class Student(models.Model):
         super(Student, self).save(*args, **kwargs)
         if self.image:
             resize_image(self.image.path)
-
-
-# class StudentCourse(models.Model):
-#     """Модель для связи студентов и курсов."""
-#
-#     student = models.ForeignKey(
-#         Student,
-#         on_delete=models.CASCADE,
-#         related_name='courses',
-#         verbose_name='студент курса'
-#     )
-#     course = models.ForeignKey(
-#         Course,
-#         on_delete=models.CASCADE,
-#         related_name='students',
-#         verbose_name='пройденные курсы'
-#     )
-#
-#     class Meta:
-#         verbose_name = 'курс студента'
-#         verbose_name_plural = 'курсы студента'
-#         constraints = (
-#             models.UniqueConstraint(
-#                 fields=('student', 'course'),
-#                 name='unique_student_course'
-#             ),
-#         )
-#
-#     def __str__(self):
-#         """Возвращает имя студента и пройденный им курс."""
-#         return f'{self.student} прошёл курс {self.course.name}'
-
-
-# class StudentHardSkill(models.Model):
-#     """Модель для связи студентов и навыков."""
-#
-#     student = models.ForeignKey(
-#         Student,
-#         on_delete=models.PROTECT,
-#         related_name='skills',
-#         verbose_name='студент'
-#     )
-#     hard_skill = models.ForeignKey(
-#         HardSkill,
-#         on_delete=models.PROTECT,
-#         related_name='students',
-#         verbose_name='навык студента'
-#     )
-#
-#     class Meta:
-#         verbose_name = 'навык студента'
-#         verbose_name_plural = 'навыки студента'
-#         constraints = (
-#             models.UniqueConstraint(
-#                 fields=('student', 'hard_skill'),
-#                 name='unique_student_hard_skill'
-#             ),
-#         )
-#
-#     def __str__(self):
-#         """Возвращает имя студента и его навык."""
-#         return f'{self.student} может в {self.hard_skill.name}'
