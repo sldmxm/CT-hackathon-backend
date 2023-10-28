@@ -6,6 +6,7 @@ from utils.validators import validate_telegram_username
 from backend.constants import (
     EDUCATION_LEVEL_CHOICES,
     EXPERIENCE_CHOICES,
+    LANGUAGE_LEVEL_CHOICES,
     MIN_SALARY,
     STANDARD_MAX_CHAR_FIELD_LENGTH,
     WORK_SEEKING_STATUS_CHOICES,
@@ -81,6 +82,12 @@ class OfficeFormat(ReferenceModel):
     class Meta:
         verbose_name = 'формат места работы'
         verbose_name_plural = 'форматы места работы'
+
+
+class Language(ReferenceModel):
+    class Meta:
+        verbose_name = 'язык'
+        verbose_name_plural = 'языки'
 
 
 class Student(models.Model):
@@ -190,6 +197,12 @@ class Student(models.Model):
         related_name='students',
         verbose_name='форматы места работы',
     )
+    language = models.ManyToManyField(
+        Language,
+        verbose_name='языки',
+        blank=True,
+        through='StudentLanguage',
+    )
 
     # Поля с определёнными значениями
     education = models.PositiveSmallIntegerField(
@@ -237,3 +250,32 @@ class Student(models.Model):
         super(Student, self).save(*args, **kwargs)
         if self.image:
             resize_image(self.image.path)
+
+
+class StudentLanguage(models.Model):
+    """Модель для хранения информации о языках студента."""
+
+    student = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE,
+        related_name='languages',
+        verbose_name='студент',
+    )
+    language = models.ForeignKey(
+        Language,
+        on_delete=models.CASCADE,
+        related_name='students',
+        verbose_name='язык',
+    )
+    level = models.CharField(
+        'уровень',
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
+        choices=LANGUAGE_LEVEL_CHOICES,
+    )
+
+    class Meta:
+        verbose_name = 'уровень языка'
+        verbose_name_plural = 'уровни языков'
+
+    def __str__(self):
+        return f'{self.student} - {self.language} - {self.level}'

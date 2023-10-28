@@ -3,6 +3,7 @@ from django.db import models
 from students.models import (
     Course,
     HardSkill,
+    Language,
     Location,
     OfficeFormat,
     Specialty,
@@ -141,6 +142,19 @@ class Vacancy(models.Model):
         verbose_name='формат работы',
         blank=True,
         related_name='vacancies',
+    )
+    language = models.ForeignKey(
+        Language,
+        verbose_name='язык',
+        blank=True,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+    language_level = models.CharField(
+        verbose_name='уровень языка',
+        max_length=constants.STANDARD_MAX_CHAR_FIELD_LENGTH,
+        choices=constants.LANGUAGE_LEVEL_CHOICES,
+        blank=True,
     )
     course_list = models.ManyToManyField(
         Course,
