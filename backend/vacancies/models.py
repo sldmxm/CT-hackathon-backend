@@ -43,12 +43,14 @@ class Vacancy(models.Model):
     title = models.CharField(
         max_length=constants.STANDARD_MAX_CHAR_FIELD_LENGTH,
         verbose_name='название',
+        blank=False,
     )
     author = models.ForeignKey(
         User,
         verbose_name='автор',
         on_delete=models.CASCADE,
         related_name='vacancies',
+        blank=False,
     )
     description = models.TextField(
         verbose_name='описание',
@@ -73,6 +75,7 @@ class Vacancy(models.Model):
     location = models.ManyToManyField(
         Location,
         verbose_name='местонахождения',
+        blank=True,
     )
     company = models.CharField(
         verbose_name='компания',
@@ -118,6 +121,7 @@ class Vacancy(models.Model):
         OfficeFormat,
         on_delete=models.RESTRICT,
         verbose_name='формат места работы',
+        bank=True,
     )
     hard_skill = models.ManyToManyField(
         HardSkill,
@@ -140,14 +144,17 @@ class Vacancy(models.Model):
     course_list = models.ManyToManyField(
         Course,
         verbose_name='курсы',
+        blank=True,
     )
     work_experience = models.PositiveSmallIntegerField(
         'опыт работы',
         choices=constants.EXPERIENCE_CHOICES,
+        blank=True,
     )
     education = models.PositiveSmallIntegerField(
         'уровень образования',
         choices=constants.EDUCATION_LEVEL_CHOICES,
+        blank=True,
     )
 
     class Meta:
@@ -242,11 +249,11 @@ class VacancyStudents(models.Model):
     )
     score = models.PositiveSmallIntegerField(
         verbose_name='оценка студента на вакансию',
-        default=3,
         validators=(
             MinValueValidator(limit_value=1),
             MaxValueValidator(limit_value=5),
-        )
+        ),
+        null=True,
     )
     notes = models.TextField(
         verbose_name='заметки HR по студенту на вакансию',
@@ -262,14 +269,10 @@ class VacancyStudents(models.Model):
     created_at = models.DateTimeField(
         verbose_name='дата создания',
         auto_now_add=True,
-        null=False,
-        blank=False,
     )
     updated_at = models.DateTimeField(
         verbose_name='дата изменения',
         auto_now=True,
-        null=False,
-        blank=False,
     )
 
     class Meta:
