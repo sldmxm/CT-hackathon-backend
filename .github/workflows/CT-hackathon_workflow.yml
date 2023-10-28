@@ -13,12 +13,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-#      - name: Debug info
-#        run: |
-#          pwd
-#          ls -gla
-#          ls ./frontend/
-#          ls ./infra/
       - name: Uploading project files to remote server
         uses: appleboy/scp-action@master
         with:
@@ -62,11 +56,11 @@ jobs:
             sudo docker compose rm backend -f
             sudo docker compose up --build -d --force-recreate
 
-#            перенес миграции и статику в docker-compose, чтобы локально тоже походили
-#            sudo docker compose exec -T web python manage.py makemigrations
-#            sudo docker compose exec -T web python manage.py migrate
-#            sudo docker compose exec -T web python manage.py superuser
-#            sudo docker compose exec -T web python manage.py collectstatic --no-input
+            перенес миграции и статику в docker-compose, чтобы локально тоже походили
+            sudo docker compose exec -T web python manage.py makemigrations
+            sudo docker compose exec -T web python manage.py migrate
+            sudo docker compose exec -T web python manage.py superuser
+            sudo docker compose exec -T web python manage.py collectstatic --no-input
 
 #  tests:
 #    name: Run tests
