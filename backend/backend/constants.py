@@ -27,6 +27,14 @@ WORK_SEEKING_STATUS_CHOICES = (
     ('open_to_offers', 'Открыт для предложений'),
     ('not_seeking', 'Не ищу работу'),
 )
+LANGUAGE_LEVEL_CHOICES = (
+    ('A1', 'A1'),
+    ('A2', 'A2'),
+    ('B1', 'B1'),
+    ('B2', 'B2'),
+    ('C1', 'C1'),
+    ('C2', 'C2'),
+)
 FILTER_FIELDS_FOR_VACANCY_CHOICES = (
     ('salary_from', 'зарплата от'),
     ('salary_to', 'зарплата до'),
