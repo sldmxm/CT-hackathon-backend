@@ -41,7 +41,6 @@ jobs:
             sudo rm -f .env
             touch .env
 
-            echo LOCAL_DEV=False >> .env
             echo DJANGO_SECRET_KEY="${{ secrets.DJANGO_SECRET_KEY }}" >> .env
             echo CSRF_TRUSTED="${{ secrets.HOST }}" >> .env
 
