@@ -121,7 +121,7 @@ class Vacancy(models.Model):
         OfficeFormat,
         on_delete=models.RESTRICT,
         verbose_name='формат места работы',
-        bank=True,
+        blank=True,
     )
     hard_skill = models.ManyToManyField(
         HardSkill,
