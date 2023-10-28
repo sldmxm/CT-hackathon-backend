@@ -19,10 +19,10 @@ class Command(BaseCommand):
         admin_firstname = os.getenv('ADMIN_FIRSTNAME', default='Max')
         admin_lastname = os.getenv('ADMIN_LASTNAME', default='Sol')
 
-        (User.objects.filter(username=admin_name).exists()
-            or User.objects.create_superuser(
-                email=admin_mail,
-                username=admin_name,
-                first_name=admin_firstname,
-                last_name=admin_lastname,
-                password=admin_pass))
+        return (User.objects.filter(username=admin_name).exists()
+                or User.objects.create_superuser(
+                    email=admin_mail,
+                    username=admin_name,
+                    first_name=admin_firstname,
+                    last_name=admin_lastname,
+                    password=admin_pass))
