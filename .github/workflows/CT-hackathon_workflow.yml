@@ -56,12 +56,6 @@ jobs:
             sudo docker compose rm backend -f
             sudo docker compose up --build -d --force-recreate
 
-            перенес миграции и статику в docker-compose, чтобы локально тоже походили
-            sudo docker compose exec -T web python manage.py makemigrations
-            sudo docker compose exec -T web python manage.py migrate
-            sudo docker compose exec -T web python manage.py superuser
-            sudo docker compose exec -T web python manage.py collectstatic --no-input
-
 #  tests:
 #    name: Run tests
 #    runs-on: ubuntu-latest
