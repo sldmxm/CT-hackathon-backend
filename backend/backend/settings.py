@@ -14,10 +14,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = (
-    ''.join(['http://',
-             os.getenv('CSRF_TRUSTED', default='localhost')])
-)
+CSRF_TRUSTED = os.getenv('CSRF_TRUSTED')
+CSRF_TRUSTED_ORIGINS = [f'http://*.{CSRF_TRUSTED}']
 
 
 INSTALLED_APPS = [
