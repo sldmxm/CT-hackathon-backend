@@ -115,7 +115,8 @@ class Vacancy(models.Model):
         verbose_name='специальность',
         on_delete=models.RESTRICT,
         related_name='vacancies',
-        blank=False,
+        blank=True,
+        null=True
     )
     office_format = models.ForeignKey(
         OfficeFormat,

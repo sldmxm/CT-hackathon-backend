@@ -12,7 +12,7 @@ class FilterInline(admin.TabularInline):
 class VacancyAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'is_active', 'is_published')
     list_filter = ('is_active', 'is_published')
-    search_fields = ('title', 'author__username', 'company', 'city')
+    search_fields = ('title', 'author__username', 'company', )
     list_per_page = 20
 
     inlines = [FilterInline]
@@ -25,7 +25,6 @@ class VacancyAdmin(admin.ModelAdmin):
                 'description',
                 'salary_from',
                 'salary_to',
-                'city',
                 'company',
             )
         }),
