@@ -96,13 +96,13 @@ class Student(models.Model):
     )
     email = models.EmailField(
         'e-mail',
-        unique=True,
+        blank=True,
+        max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
     )
     telegram_username = models.CharField(
         'телеграм',
         max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
         blank=True,
-        null=True,
         validators=[validate_telegram_username],
     )
     salary_from = models.IntegerField(
@@ -152,7 +152,7 @@ class Student(models.Model):
         related_name='students',
         verbose_name='местонахождение',
         max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
-        blank=True,
+        blank=False,
     )
 
     #  Поля многие-ко-многим
@@ -169,7 +169,6 @@ class Student(models.Model):
     hard_skills = models.ManyToManyField(
         HardSkill,
         verbose_name='навыки',
-        blank=True,
     )
     specialty = models.ManyToManyField(
         Specialty,
@@ -180,38 +179,31 @@ class Student(models.Model):
         WorkSchedule,
         related_name='students',
         verbose_name='графики работы',
-        blank=True,
     )
     work_format = models.ManyToManyField(
         WorkFormat,
         related_name='students',
         verbose_name='форматы работы',
-        blank=True,
     )
     office_format = models.ManyToManyField(
         OfficeFormat,
         related_name='students',
         verbose_name='форматы места работы',
-        blank=True,
     )
 
     # Поля с определёнными значениями
     education = models.PositiveSmallIntegerField(
         'уровень образования',
         choices=EDUCATION_LEVEL_CHOICES,
-        blank=True,
     )
     status = models.CharField(
         'статус поиска работы',
         max_length=STANDARD_MAX_CHAR_FIELD_LENGTH,
         choices=WORK_SEEKING_STATUS_CHOICES,
-        blank=True,
     )
     work_experience = models.PositiveSmallIntegerField(
         'опыт работы',
         choices=EXPERIENCE_CHOICES,
-        blank=True,
-        null=True,
     )
 
     class Meta:
