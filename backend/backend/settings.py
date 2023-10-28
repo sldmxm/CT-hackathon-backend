@@ -15,7 +15,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = (
-    os.getenv('CSRF_TRUSTED', default='localhost'),
+    ''.join(['http://',
+             os.getenv('CSRF_TRUSTED', default='localhost')])
 )
 
 
