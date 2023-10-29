@@ -17,7 +17,7 @@ from students.models import (
 )
 from users.models import User
 from utils import constants
-from vacancies.models import Grade, Kanban, Vacancy, VacancyStudent
+from vacancies.models import Candidate, Grade, Kanban, Vacancy
 
 from backend.constants import (
     EDUCATION_LEVEL_CHOICES,
@@ -241,7 +241,7 @@ class UserFactory(DjangoModelFactory):
 
 class VacancyStudentFactory(DjangoModelFactory):
     class Meta:
-        model = VacancyStudent
+        model = Candidate
 
     student = LazyAttribute(
         lambda _: random.choice(Student.objects.all()))
