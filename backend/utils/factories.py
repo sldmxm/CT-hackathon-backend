@@ -6,10 +6,12 @@ from faker import Faker
 from students.models import (
     Course,
     HardSkill,
+    Language,
     Location,
     OfficeFormat,
     Specialty,
     Student,
+    StudentLanguage,
     WorkFormat,
     WorkSchedule,
 )
@@ -20,6 +22,7 @@ from vacancies.models import Grade, Kanban, Vacancy, VacancyStudents
 from backend.constants import (
     EDUCATION_LEVEL_CHOICES,
     EXPERIENCE_CHOICES,
+    LANGUAGE_LEVEL_CHOICES,
     WORK_SEEKING_STATUS_CHOICES,
 )
 
@@ -74,8 +77,8 @@ class StudentFactory(DjangoModelFactory):
         student.location_to_relocate.set(
             cls.get_random_items(
                 Location,
-                constants.LOCATIONS_TO_RELOCATE_MIN,
-                constants.LOCATIONS_TO_RELOCATE_MAX
+                constants.LOCATION_TO_RELOCATE_MIN,
+                constants.LOCATION_TO_RELOCATE_MAX
             )
         )
         student.hard_skills.set(
@@ -120,6 +123,12 @@ class StudentFactory(DjangoModelFactory):
                 constants.STUDENT_OFFICE_FORMAT_MAX
             )
         )
+
+        StudentLanguage.objects.create(
+            student=student,
+            language=random.choice(Language.objects.all()),
+            level=random.choice(LANGUAGE_LEVEL_CHOICES)[0]
+        )
         return student
 
 
@@ -160,6 +169,11 @@ class VacancyFactory(DjangoModelFactory):
         lambda: random.choice(EXPERIENCE_CHOICES)[0])
     education = LazyFunction(
         lambda: random.choice(EDUCATION_LEVEL_CHOICES)[0])
+
+    language = LazyAttribute(
+        lambda _: random.choice(Language.objects.all()))
+    language_level = LazyFunction(
+        lambda: random.choice(LANGUAGE_LEVEL_CHOICES)[0])
 
     @classmethod
     def get_random_items(cls, model, min_count, max_count):
