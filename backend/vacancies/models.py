@@ -215,6 +215,14 @@ class Filter(models.Model):
         verbose_name='значение фильтра',
     )
 
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'фильтр'
+        verbose_name_plural = 'фильтры'
+
+    def __str__(self):
+        return f'{self.field_name}: {self.filter_value}'
+
 
 class Kanban(models.Model):
     name = models.CharField(
@@ -243,6 +251,9 @@ class Kanban(models.Model):
         ordering = ('order_number',)
         verbose_name = 'канбан этап'
         verbose_name_plural = 'этапы канбана'
+
+    def __str__(self):
+        return f'{self.order_number}. {self.name}'
 
 
 class Candidate(models.Model):
