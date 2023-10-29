@@ -13,25 +13,19 @@ def get_or_create_admin():
     admin_firstname = os.getenv('ADMIN_FIRSTNAME', 'Max')
     admin_lastname = os.getenv('ADMIN_LASTNAME', 'Sol')
 
-    admin, created = User.objects.get_or_create(
-        username=admin_name,
-        defaults={
-            'password': admin_pass,
-            'email': admin_mail,
-            'first_name': admin_firstname,
-            'last_name': admin_lastname,
-        }
-    )
-
-    if created:
-        admin.is_superuser = True
-        admin.is_staff = True
-        admin.save()
-        print(f'Создан администратор {admin_name}')
-    else:
+    admins = User.objects.filter(username=admin_name)
+    if admins:
         print(f'Администратор {admin_name} уже существует')
-
-    return admin
+        return admins[0]
+    else:
+        print(f'Создан администратор {admin_name}')
+        return User.objects.create_superuser(
+            email=admin_mail,
+            username=admin_name,
+            first_name=admin_firstname,
+            last_name=admin_lastname,
+            password=admin_pass
+        )
 
 
 class Command(BaseCommand):
