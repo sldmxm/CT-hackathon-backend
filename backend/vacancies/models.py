@@ -245,7 +245,7 @@ class Kanban(models.Model):
         verbose_name_plural = 'этапы канбана'
 
 
-class VacancyStudent(models.Model):
+class Candidate(models.Model):
     """Модель для хранения информации о претендентах на вакансии."""
 
     student = models.ForeignKey(

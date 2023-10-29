@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Filter, Grade, Kanban, Vacancy, VacancyStudent
+from .models import Candidate, Filter, Grade, Kanban, Vacancy
 
 
 class FilterInline(admin.TabularInline):
@@ -48,7 +48,7 @@ class VacancyAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
 
-@admin.register(VacancyStudent)
+@admin.register(Candidate)
 class VacancyStudentsAdmin(admin.ModelAdmin):
     list_display = ('student', 'vacancy', 'score')
     list_filter = ('vacancy',)
