@@ -6,6 +6,7 @@ from students.models import (
     OfficeFormat,
     Specialty,
     Student,
+    StudentLanguage,
     WorkFormat,
     WorkSchedule,
 )
@@ -75,6 +76,16 @@ class HardSkillSerializer(BaseNameSerializer):
         model = HardSkill
 
 
+class StudentLanguageSerializer(BaseNameSerializer):
+    """Сериализация языков."""
+
+    language = serializers.StringRelatedField()
+
+    class Meta(BaseNameSerializer.Meta):
+        model = StudentLanguage
+        fields = ('language', 'level',)
+
+
 class StudentBriefSerializer(serializers.ModelSerializer):
     """Сокращенная сериализация студентов для канбан-доски."""
 
@@ -107,6 +118,7 @@ class StudentSerializer(StudentBriefSerializer):
     location_to_relocate = LocationSerializer(many=True, read_only=True)
     course_list = CourseSerializer(many=True, read_only=True)
     hard_skills = HardSkillSerializer(many=True, read_only=True)
+    languages = StudentLanguageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Student
@@ -144,19 +156,7 @@ class VacancySerializer(VacancyBriefSerializer):
 
     office_format = serializers.StringRelatedField()
     specialty = serializers.StringRelatedField()
-
-    class Meta:
-        model = Vacancy
-        fields = '__all__'
-
-
-class VacancyCandidateSerializer(serializers.ModelSerializer):
-    # student = StudentBriefSerializer()
-    # vacancy = VacancyBriefSerializer()
-    kanban_position = serializers.SlugRelatedField(
-        slug_field='order_number',
-        read_only=True,
-    )
+    language = serializers.StringRelatedField()
 
     class Meta:
         model = Vacancy
