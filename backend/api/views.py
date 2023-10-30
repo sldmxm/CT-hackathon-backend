@@ -24,6 +24,7 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     http_method_names = ('get', )
+    pagination_class = TablePagePagination
 
 
 class VacancyViewSet(viewsets.ModelViewSet):
