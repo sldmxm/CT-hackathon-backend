@@ -9,7 +9,7 @@ from students.models import (
     WorkFormat,
     WorkSchedule,
 )
-from vacancies.models import Grade, Vacancy
+from vacancies.models import Candidate, Grade, Vacancy
 
 
 class BaseNameSerializer(serializers.ModelSerializer):
@@ -75,10 +75,26 @@ class HardSkillSerializer(BaseNameSerializer):
         model = HardSkill
 
 
-class StudentSerializer(serializers.ModelSerializer):
-    """Сериализация студентов."""
+class StudentBriefSerializer(serializers.ModelSerializer):
+    """Сокращенная сериализация студентов для канбан-доски."""
 
     work_experience = serializers.CharField(source='display_work_experience')
+    image = serializers.SerializerMethodField('get_image_url', read_only=True)
+
+    class Meta:
+        model = Student
+        fields = ('id', 'first_name', 'last_name', 'work_experience', 'image',)
+
+    def get_image_url(self, obj):
+        """Возвращает относительный путь изображения."""
+        if obj.image:
+            return obj.image.url
+        return None
+
+
+class StudentSerializer(StudentBriefSerializer):
+    """Сериализация студентов."""
+
     education = serializers.CharField(source='display_education')
     status = serializers.CharField(source='display_status')
 
@@ -91,11 +107,20 @@ class StudentSerializer(serializers.ModelSerializer):
     location_to_relocate = LocationSerializer(many=True, read_only=True)
     course_list = CourseSerializer(many=True, read_only=True)
     hard_skills = HardSkillSerializer(many=True, read_only=True)
-    image = serializers.SerializerMethodField('get_image_url', read_only=True)
 
     class Meta:
         model = Student
         fields = '__all__'
+
+
+class VacancyBriefSerializer(serializers.ModelSerializer):
+    """Сокращенная сериализация вакансий для канбан-доски."""
+
+    image = serializers.SerializerMethodField('get_image_url', read_only=True)
+
+    class Meta:
+        model = Vacancy
+        fields = ('id', 'title', 'image',)
 
     def get_image_url(self, obj):
         """Возвращает относительный путь изображения."""
@@ -104,8 +129,8 @@ class StudentSerializer(serializers.ModelSerializer):
         return None
 
 
-class VacancyViewSerializer(serializers.ModelSerializer):
-    """Сериализация вакансий."""
+class VacancySerializer(VacancyBriefSerializer):
+    """Полная сериализация вакансий."""
 
     location = LocationSerializer(many=True, required=True)
     grade = GradeSerializer(many=True, required=True)
@@ -120,14 +145,45 @@ class VacancyViewSerializer(serializers.ModelSerializer):
     office_format = serializers.StringRelatedField()
     specialty = serializers.StringRelatedField()
 
-    image = serializers.SerializerMethodField('get_image_url', read_only=True)
+    class Meta:
+        model = Vacancy
+        fields = '__all__'
+
+
+class VacancyCandidateSerializer(serializers.ModelSerializer):
+    # student = StudentBriefSerializer()
+    # vacancy = VacancyBriefSerializer()
+    kanban_position = serializers.SlugRelatedField(
+        slug_field='order_number',
+        read_only=True,
+    )
 
     class Meta:
         model = Vacancy
         fields = '__all__'
 
-    def get_image_url(self, obj):
-        """Возвращает относительный путь изображения."""
-        if obj.image:
-            return obj.image.url
-        return None
+
+class CandidateEditSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Candidate
+        fields = ('kanban_position', 'notes', 'score',)
+
+
+class CandidateViewSerializer(serializers.ModelSerializer):
+    student = StudentBriefSerializer()
+    kanban_position = serializers.SlugRelatedField(
+        slug_field='order_number',
+        read_only=True,
+    )
+
+    class Meta:
+        model = Candidate
+        exclude = ('vacancy',)
+
+
+class CandidateListSerializer(VacancyBriefSerializer):
+    candidates = CandidateViewSerializer(many=True, read_only=True)
+
+    class Meta(VacancyBriefSerializer.Meta):
+        fields = ('id', 'title', 'image', 'candidates')

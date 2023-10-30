@@ -264,14 +264,14 @@ class Candidate(models.Model):
         verbose_name='студент',
         on_delete=models.CASCADE,
         null=False,
-        related_name='vacancies',
+        related_name='+',
     )
     vacancy = models.ForeignKey(
         Vacancy,
         verbose_name='вакансия',
         on_delete=models.CASCADE,
         null=False,
-        related_name='students',
+        related_name='candidates',
     )
     score = models.PositiveSmallIntegerField(
         verbose_name='оценка студента на вакансию',
