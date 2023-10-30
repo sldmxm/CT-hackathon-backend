@@ -118,7 +118,8 @@ class CandidateViewSet(mixins.ListModelMixin,
         return Response(response_serializer.data)
 
 
-class StudentMatchingViewSet(viewsets.ModelViewSet):
+class StudentMatchingViewSet(mixins.ListModelMixin,
+                             viewsets.GenericViewSet):
     """Данные о студентах, которые подходят под вакансию."""
 
     queryset = Student.objects.all()
