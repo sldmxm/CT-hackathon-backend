@@ -125,6 +125,30 @@ class StudentSerializer(StudentBriefSerializer):
         fields = '__all__'
 
 
+class StudentsMatchingVacancySerializer(StudentSerializer):
+    relocation = serializers.BooleanField(default=False)
+    relevant_hard_skills = HardSkillSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Student
+        fields = (
+            'id',
+            'image',
+            'first_name',
+            'last_name',
+            'office_format',
+            'current_location',
+            'relocation',
+            'work_schedule',
+            'work_experience',
+            'status',
+            'relevant_hard_skills',
+            # остального нет в таблице на текущий момент, а стоило бы
+            'specialty',
+            'work_format',
+        )
+
+
 class VacancyBriefSerializer(serializers.ModelSerializer):
     """Сокращенная сериализация вакансий для канбан-доски."""
 

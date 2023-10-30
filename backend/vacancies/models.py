@@ -288,6 +288,7 @@ class Candidate(models.Model):
     notes = models.TextField(
         verbose_name='заметки HR по студенту на вакансию',
         blank=True,
+        null=True,
     )
     kanban_position = models.ForeignKey(
         Kanban,

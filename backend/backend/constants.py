@@ -25,6 +25,7 @@ WORK_SEEKING_STATUS_CHOICES = (
     ('additional_work', 'Ищу дополнительную работу'),
     ('passively_seeking', 'Пассивно ищу работу'),
     ('open_to_offers', 'Открыт для предложений'),
+    # 'not_seeking' - не менять, используется в фильтрации
     ('not_seeking', 'Не ищу работу'),
 )
 LANGUAGE_LEVEL_CHOICES = (

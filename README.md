@@ -25,7 +25,7 @@
 
 - Полная документация по работе с API http://localhost/api/docs/redoc/ и http://localhost/api/docs/swagger/
 
-### Разворачиваем проект локально:
+### Разворачиваем проект локально для разработки
 1. Склонируйте проект, перейдите в папку `/backend`
     ```shell
     git clone git@github.com:sldmxm/CT-hackathon-backend.git

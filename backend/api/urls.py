@@ -5,21 +5,37 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .views import CandidateViewSet, StudentViewSet, VacancyViewSet
+from .views import (
+    CandidateViewSet,
+    StudentMatchingViewSet,
+    StudentViewSet,
+    VacancyViewSet,
+)
 
 app_name = 'api'
 
 router = DefaultRouter()
 
-router.register('students', StudentViewSet, basename='students')
-router.register('vacancies', VacancyViewSet, basename='vacancies')
+router.register(
+    'students',
+    StudentViewSet,
+    basename='students'
+)
+router.register(
+    'vacancies',
+    VacancyViewSet,
+    basename='vacancies'
+)
 router.register(
     r'vacancies/(?P<vacancy_id>\d+)/candidates',
     CandidateViewSet,
     basename='candidates'
 )
-# router.register(
-# r'vacancies/(?P<vacancy_id>\d+)/students', StudentSelectionViewSet)
+router.register(
+    r'vacancies/(?P<vacancy_id>\d+)/students',
+    StudentMatchingViewSet,
+    basename='students_matching'
+)
 
 urlpatterns = (
     path('v1/', include(router.urls)),

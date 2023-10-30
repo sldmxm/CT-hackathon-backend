@@ -1,3 +1,4 @@
+from django.db.models import F, Q, Value
 from django.shortcuts import get_object_or_404
 from rest_framework import mixins, serializers, viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -11,12 +12,13 @@ from .serializers import (
     CandidateListSerializer,
     CandidateViewSerializer,
     StudentSerializer,
+    StudentsMatchingVacancySerializer,
     VacancySerializer,
 )
 
 
 class StudentViewSet(viewsets.ModelViewSet):
-    """Передает данные о всех студентах."""
+    """Данные о всех студентах."""
 
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
@@ -24,7 +26,7 @@ class StudentViewSet(viewsets.ModelViewSet):
 
 
 class VacancyViewSet(viewsets.ModelViewSet):
-    """Передает данные о вакансиях текущего пользователя."""
+    """Данные о вакансиях текущего пользователя."""
 
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
@@ -57,7 +59,7 @@ class VacancyViewSet(viewsets.ModelViewSet):
 class CandidateViewSet(mixins.ListModelMixin,
                        mixins.UpdateModelMixin,
                        viewsets.GenericViewSet):
-    """Передает данные о кандидатах по вакансии для канбан-доски."""
+    """Данные о кандидатах по вакансии для канбан-доски."""
 
     queryset = Vacancy.objects.all()
     serializer_class = CandidateListSerializer
@@ -109,11 +111,73 @@ class CandidateViewSet(mixins.ListModelMixin,
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        if getattr(instance, '_prefetched_objects_cache', None):
-            instance._prefetched_objects_cache = {}
-
         response_serializer = CandidateViewSerializer(
             instance=serializer.instance,
             context={'request': request}
         )
         return Response(response_serializer.data)
+
+
+class StudentMatchingViewSet(viewsets.ModelViewSet):
+    """Данные о студентах, которые подходят под вакансию."""
+
+    queryset = Student.objects.all()
+    serializer_class = StudentsMatchingVacancySerializer
+    http_method_names = ('get', )
+
+    def get_permissions(self):
+        return [IsAuthorOfVacancy(), ]
+
+    def get_queryset(self):
+        vacancy_id = self.kwargs['vacancy_id']
+        vacancy = get_object_or_404(Vacancy, pk=vacancy_id)
+        specialty_extended = f'{vacancy.title} {vacancy.specialty.name}'
+
+        queryset = Student.objects.annotate(
+            specialty_extended=Value(specialty_extended)
+        ).filter(
+            # location - совпадает или готов туда переехать
+            Q(current_location__in=vacancy.location.all())
+            | Q(location_to_relocate__in=vacancy.location.all()),
+
+            # ищет работу или готов к предложениям
+            ~Q(status='not_seeking'),
+
+            # еще не отобран в эту вакансию
+            ~Q(
+                id__in=vacancy.candidates.select_related(
+                    'student'
+                ).values_list('student__id', flat=True)
+            ),
+
+            # заголовок вакансии и специальность
+            # содержат хотя бы одну студента
+            Q(specialty_extended__icontains=F('specialty__name')),
+
+            # совпадает хотя бы один
+            office_format=vacancy.office_format,
+            work_schedule__in=vacancy.work_schedule.all(),
+            work_format__in=vacancy.work_format.all(),
+            hard_skills__in=vacancy.hard_skill.all(),
+
+            # опыт работы не меньше требование (проверяется по id)
+            work_experience__gte=vacancy.work_experience,
+        ).distinct()
+
+        for student in queryset:
+            student.relocation = (
+                student.location_to_relocate.filter(
+                    id__in=vacancy.location.all()).exists())
+            student.relevant_hard_skills = (
+                student.hard_skills.filter(
+                    id__in=vacancy.hard_skill.all()))
+
+        queryset = sorted(
+            queryset,
+            key=lambda student: (
+                -student.work_experience,
+                -student.relevant_hard_skills.count(),
+            )
+        )
+
+        return queryset
