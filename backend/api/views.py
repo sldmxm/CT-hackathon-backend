@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from students.models import Student
 from vacancies.models import Kanban, Vacancy
 
+from .pagination import TablePagePagination
 from .permissions import IsAuthor, IsAuthorOfVacancy
 from .serializers import (
     CandidateEditSerializer,
@@ -125,6 +126,7 @@ class StudentMatchingViewSet(mixins.ListModelMixin,
     queryset = Student.objects.all()
     serializer_class = StudentsMatchingVacancySerializer
     http_method_names = ('get', )
+    pagination_class = TablePagePagination
 
     def get_permissions(self):
         return [IsAuthorOfVacancy(), ]
