@@ -104,6 +104,10 @@ class Vacancy(models.Model):
         upload_to='vacancies_images/',
         blank=True,
     )
+    portfolio = models.BooleanField(
+        verbose_name='необходимо портфолио',
+        default=False,
+    )
 
     grade = models.ManyToManyField(
         Grade,
