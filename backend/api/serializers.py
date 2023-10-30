@@ -214,6 +214,13 @@ class CandidateListSerializer(VacancyBriefSerializer):
 
 
 class CandidateAddSerializer(serializers.Serializer):
+    """
+    Сериализатор для добавления кандидатов на канбан доску.
+
+    Формат данных:
+    {"student_ids": [7,8,9]}
+    """
+
     student_ids = serializers.ListField(
         child=serializers.IntegerField(),
     )

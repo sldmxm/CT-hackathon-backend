@@ -37,7 +37,7 @@ class VacancyViewSet(viewsets.ModelViewSet):
     http_method_names = ('get', 'post')
 
     def get_permissions(self):
-        if self.action in ('retrieve', 'post'):
+        if self.action in ('retrieve', 'add_candidates'):
             return [IsAuthor(), ]
         return [IsAuthenticated(), ]
 
@@ -64,8 +64,12 @@ class VacancyViewSet(viewsets.ModelViewSet):
         detail=True,
     )
     def add_candidates(self, request, pk):
-        """Добавление кандидатов в вакансию на канбан доску."""
+        """
+        Добавление кандидатов в вакансию на канбан доску.
 
+        Формат данных:
+        {"student_ids": [7,8,9]}
+        """
         vacancy = get_object_or_404(Vacancy, pk=pk)
 
         if request.user != vacancy.author:
