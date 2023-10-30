@@ -295,7 +295,7 @@ class Candidate(models.Model):
         on_delete=models.RESTRICT,
         related_name='students',
         verbose_name='позиция в канбане',
-        default=0,
+        default=1,
     )
     created_at = models.DateTimeField(
         verbose_name='дата создания',

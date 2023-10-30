@@ -211,3 +211,19 @@ class CandidateListSerializer(VacancyBriefSerializer):
 
     class Meta(VacancyBriefSerializer.Meta):
         fields = ('id', 'title', 'image', 'candidates')
+
+
+class CandidateAddSerializer(serializers.Serializer):
+    student_ids = serializers.ListField(
+        child=serializers.IntegerField(),
+    )
+
+    def validate_students_ids(self, student_ids):
+        for student_id in student_ids:
+            if not isinstance(student_id, int):
+                raise serializers.ValidationError(
+                    'id кндидатов должны быть типа int')
+        return student_ids
+
+    def to_representation(self, instance):
+        return {'student_ids': instance.student_ids}

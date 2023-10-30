@@ -1,14 +1,16 @@
 from django.db.models import F, Q, Value
 from django.shortcuts import get_object_or_404
-from rest_framework import mixins, serializers, viewsets
+from rest_framework import mixins, serializers, status, viewsets
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from students.models import Student
-from vacancies.models import Kanban, Vacancy
+from vacancies.models import Candidate, Kanban, Vacancy
 
 from .pagination import TablePagePagination
 from .permissions import IsAuthor, IsAuthorOfVacancy
 from .serializers import (
+    CandidateAddSerializer,
     CandidateEditSerializer,
     CandidateListSerializer,
     CandidateViewSerializer,
@@ -32,10 +34,10 @@ class VacancyViewSet(viewsets.ModelViewSet):
 
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
-    http_method_names = ('get', )
+    http_method_names = ('get', 'post')
 
     def get_permissions(self):
-        if self.action == 'retrieve':
+        if self.action in ('retrieve', 'post'):
             return [IsAuthor(), ]
         return [IsAuthenticated(), ]
 
@@ -56,6 +58,33 @@ class VacancyViewSet(viewsets.ModelViewSet):
                 'hard_skill',
             )
         )
+
+    @action(
+        methods=['post'],
+        detail=True,
+    )
+    def add_candidates(self, request, pk):
+        """Добавление кандидатов в вакансию на канбан доску."""
+
+        vacancy = get_object_or_404(Vacancy, pk=pk)
+
+        if request.user != vacancy.author:
+            return Response(
+                {'detail': 'Доступ запрещен.'},
+                status=status.HTTP_403_FORBIDDEN)
+
+        serializer = CandidateAddSerializer(data=request.data)
+        if serializer.is_valid():
+            student_ids = serializer.validated_data['student_ids']
+
+            candidates_to_create = [
+                Candidate(
+                    student_id=student_id,
+                    vacancy=vacancy) for student_id in student_ids
+            ]
+            Candidate.objects.bulk_create(candidates_to_create)
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CandidateViewSet(mixins.ListModelMixin,
