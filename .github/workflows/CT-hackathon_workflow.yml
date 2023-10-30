@@ -13,6 +13,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Remove old version on remote server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: |
+            sudo rm -rf /home/${{ secrets.USER }}/app
+
       - name: Uploading project files to remote server
         uses: appleboy/scp-action@master
         with:
@@ -20,7 +31,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          source: "backend/,frontend/,infra/"
+          source: "backend/, frontend/, infra/"
           target: /home/${{ secrets.USER }}/app
 
       - name: Building Docker image on remote server and deploy
