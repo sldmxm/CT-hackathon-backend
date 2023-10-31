@@ -67,4 +67,4 @@ class Api {
   }
 }
 
-export const api = new Api('http://localhost/api/v1');
+export const api = new Api('http://backend/api/v1');
