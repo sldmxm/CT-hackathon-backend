@@ -67,4 +67,6 @@ class Api {
   }
 }
 
+
 export const api = new Api('http://backend/api/v1');
+
