@@ -46,7 +46,7 @@ jobs:
             touch .env
 
             echo DJANGO_SECRET_KEY="${{ secrets.DJANGO_SECRET_KEY }}" >> .env
-            echo CSRF_TRUSTED="${{ secrets.HOST }}" >> .env
+            echo CSRF_TRUSTED="localhost" >> .env
 
             echo DB_ENGINE="django.db.backends.postgresql" >> .env
             echo DB_NAME="${{ secrets.DB_NAME }}" >> .env
