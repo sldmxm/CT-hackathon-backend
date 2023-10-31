@@ -142,23 +142,3 @@ CORS_ALLOW_ORIGIN_WHITELIST = [
     "http://130.193.36.223",
     "http://localhost",
 ]
-# CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOW_CREDENTIALS = True
-#
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",
-# ]
-# CORS_ALLOW_METHODS = [
-#     'DELETE',
-#     'GET',
-#     'OPTIONS',
-#     'PATCH',
-#     'POST',
-#     'PUT',
-# ]
-#
-# CORS_ALLOW_HEADERS = [
-#     'Accept',
-#     'Authorization',
-#     'Content-Type',
-# ]
