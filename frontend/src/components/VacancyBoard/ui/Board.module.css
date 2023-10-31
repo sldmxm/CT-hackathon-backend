@@ -1,0 +1,17 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.button {
+  color: #1d6bf3;
+  background-color: transparent;
+  border: none;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(6, 200px);
+  width: 100%;
+}

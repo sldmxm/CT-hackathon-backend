@@ -1,0 +1,16 @@
+.list {
+  margin: 0;
+  padding: 0;
+  font-family: 'YS Text', sans-serif;
+}
+
+.item {
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 20px;
+}
+
+.item:last-child {
+  list-style: none;
+}

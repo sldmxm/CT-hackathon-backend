@@ -1,0 +1,65 @@
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 32px;
+}
+
+.card {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.image {
+  width: 40px;
+  height: 40px;
+  margin: 0;
+}
+
+.rotateButton {
+  transform: rotate(180deg);
+  transition: transform 300ms ease-in-out;
+}
+
+.rotateButton svg path {
+  fill: #1d6bf3;
+}
+
+.expanded {
+  transform: rotate(0deg);
+}
+
+.Tegs {
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  max-width: 356px;
+  min-height: 56px;
+}
+
+.teg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+  height: 24px;
+  height: fit-content;
+
+  border: 1px solid var(--additional-blue-light, #acccff);
+  border-radius: 16px;
+}
+
+.tegText {
+  padding: 0 12px;
+
+  font-family: 'YS Text', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 16px;
+  white-space: nowrap;
+}

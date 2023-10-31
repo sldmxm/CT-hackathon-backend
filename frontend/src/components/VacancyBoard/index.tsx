@@ -1,0 +1,1 @@
+export { VacancyBoardContainer } from './container';

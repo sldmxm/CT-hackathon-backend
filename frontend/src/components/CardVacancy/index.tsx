@@ -1,0 +1,1 @@
+export { CardVacancy } from './component';

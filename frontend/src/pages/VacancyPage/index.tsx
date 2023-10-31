@@ -1,0 +1,1 @@
+export { VacancyPage } from './page';

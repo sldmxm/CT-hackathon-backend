@@ -1,0 +1,43 @@
+.Container {
+  position: relative;
+}
+
+.Cardlist {
+  /* Скролл для брайзеров не поддерживающие webKit */
+  scrollbar-color: #d9d9d9 transparent;
+  scrollbar-width: thin;
+
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 396px);
+  grid-template-rows: repeat(auto-fill, 224px);
+  gap: 20px;
+
+  height: 721px;
+
+  border-radius: 4px;
+}
+
+.Cardlist::-webkit-scrollbar {
+  width: 8px;
+  height: 712px;
+}
+
+.Cardlist::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.Cardlist::-webkit-scrollbar-thumb {
+  background: var(--primary-grey, #d9d9d9);
+  border-radius: 4px;
+}
+
+.MuiButton-root {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.link {
+  text-decoration: none;
+}

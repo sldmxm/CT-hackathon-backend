@@ -1,0 +1,29 @@
+:root {
+  /* main-colors */
+  --interface-main-color-black-900: #1a1b22;
+  --interface-main-color-black-500: #797981;
+  --interface-main-color-black-300: #b5b5b7;
+  --interface-main-color-black-100: #dde0e4;
+  --interface-main-color-grey: #f9fafb;
+  --interface-main-color-white: #fff;
+  --interface-main-color-blue: #5a9bff;
+  --interface-main-color-blue-base: #1d6bf3;
+  --interface-main-color-blue-bg: #f1f6ff;
+  --interface-main-color-red: #ff0200;
+
+  /* additional */
+  --interface-additional-color-green: #87cc9e;
+  --interface-additional-color-purple: #7f67d2;
+  --interface-additional-color-orange: #ffce92;
+  --interface-additional-color-green-light: #c2e5ce;
+  --interface-additional-color-purple-light: #ccc2ed;
+  --interface-additional-color-orange-light: #ffe1bd;
+  --interface-additional-color-rose: #ffdde5;
+  --interface-additional-color-yellow: #fff9d3;
+  --interface-additional-color-pink: #ffbffd;
+  --interface-additional-color-brown: #a99175;
+  --interface-additional-color-blue-light: #acccff;
+
+  /* breakpoints */
+  --desktop: 1440px;
+}

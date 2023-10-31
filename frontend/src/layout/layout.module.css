@@ -1,0 +1,26 @@
+.root {
+  display: grid;
+  grid-template:
+    'header header'
+    'sidebar content' 1fr
+    /
+    80px 1fr;
+  height: 100vh;
+}
+
+.header {
+  grid-area: header;
+  height: 80px;
+  background: var(--interface-main-color-black-900, #1a1b22);
+}
+
+.sidebar {
+  grid-area: sidebar;
+}
+
+.content {
+  grid-area: content;
+  box-sizing: border-box;
+  max-width: 1288px;
+  padding: 56px 0 0 40px;
+}

@@ -1,0 +1,10 @@
+.Card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    box-sizing: border-box;
+    width: 396px;
+    height: 224px;
+    padding: 16px 20px 20px;
+}

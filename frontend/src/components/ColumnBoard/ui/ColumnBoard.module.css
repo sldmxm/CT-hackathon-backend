@@ -1,0 +1,54 @@
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  box-sizing: border-box;
+  height: 100vh;
+
+  border-right: 1px solid var(--primary-grey, #d9d9d9);
+}
+
+.columnInfo {
+  display: flex;
+  flex-shrink: 0;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+}
+
+.checkbox {
+  flex-shrink: 0;
+
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.title {
+  margin: 0;
+  padding: 0;
+
+  font-family: 'YS Display', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 24px;
+}
+
+.candidateList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  align-self: stretch;
+
+  padding: 0 10px;
+}

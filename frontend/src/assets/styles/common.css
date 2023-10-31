@@ -1,0 +1,13 @@
+@import url('./normalize.css');
+@import url('../fonts/fonts.css');
+@import url('./variables.css');
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  text-size-adjust: 100%;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

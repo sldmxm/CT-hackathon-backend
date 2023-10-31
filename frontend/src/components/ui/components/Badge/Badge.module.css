@@ -1,0 +1,43 @@
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
+
+  border-radius: 16px;
+}
+
+.badge span {
+  font-family: 'YS Text', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 16px;
+}
+
+.candidates {
+  background: var(--interface-additional-color-blue-light, #acccff);
+}
+
+.test {
+  background: var(--interface-main-color-black-100, #dde0e4);
+}
+
+.interview {
+  background: var(--interface-additional-color-orange-light, #ffe1bd);
+}
+
+.offer {
+  background: var(--interface-additional-color-green-light, #c2e5ce);
+}
+
+.refusal {
+  background: var(--interface-additional-color-rose, #ffdde5);
+}
+
+.reserve {
+  background: var(--interface-additional-color-purple-light, #ccc2ed);
+}

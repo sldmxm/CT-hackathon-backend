@@ -1,0 +1,14 @@
+.inputFormControl {
+  box-sizing: border-box;
+  width: 100%;
+  width: 292px;
+  height: 100%;
+  height: 40px;
+
+  background-color: var(--interface-main-color-white, #fff);
+  border-radius: 4px;
+}
+
+.inputImg {
+  padding: 0 6px 0 12px;
+}

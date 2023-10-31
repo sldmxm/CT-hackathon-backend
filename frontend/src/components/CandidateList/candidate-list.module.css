@@ -1,0 +1,118 @@
+.person {
+	cursor: pointer;
+
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: flex-start;
+
+	color: #1D6BF3;
+	text-decoration: none;
+
+	transition: color 0.4s ease;
+}
+
+.person:focus,
+.person:hover {
+	color: #5A9BFF;
+}
+
+.person>*:not(:last-child) {
+	margin-right: 20px;
+}
+
+.photo-wrapper {
+	width: 36px;
+	height: 36px;
+	font-size: 0;
+	line-height: 0;
+}
+
+.photo-wrapper:has(img[src="null"]) {
+	overflow: hidden;
+	background: linear-gradient(45deg, #F9FAFB, #DDE0E4);
+	background-color: #F9FAFB;
+	border-radius: 50%;
+}
+
+.photo-wrapper img[src="null"] {
+	visibility: hidden;
+}
+
+.location {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: space-between;
+
+	width: 100%;
+}
+
+.location__current {
+	overflow: hidden;
+	max-width: 76px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.candidates div[class*="MuiDataGrid-columnHeader"][aria-colindex="2"],
+.candidates div[class*="MuiDataGrid-cell"][aria-colindex="2"] {
+	order: -1;
+	padding-right: 16px;
+	padding-left: 16px;
+}
+
+.candidates div[class*="MuiButtonBase-root"] svg {
+	transform: scale(0.75);
+}
+
+.status {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 8px 4px;
+
+	background-color: transparent;
+	border: 1px solid #DDE0E4;
+	border-radius: 4px;
+}
+
+.status .status__text {
+	overflow: hidden;
+
+	max-width: 100%;
+
+	font-size: 11px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tags {
+	position: relative;
+
+	overflow: hidden;
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: start;
+
+	width: 100%;
+}
+
+.tags::after {
+	content: '';
+
+	position: absolute;
+	top: 0;
+	right: 0;
+
+	display: block;
+
+	width: 64px;
+	height: 100%;
+
+	background: linear-gradient(90deg, rgb(255 255 255 / 0%), rgb(255 255 255 / 100%));
+}
+
+.tags>*:not(:last-child) {
+	margin-right: 8px;
+}

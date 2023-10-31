@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      dockerfile: Dockerfile
+      context: .
+    image: frontend
+    ports:
+      - '8081:80'
+    networks:
+      - frontend
+networks:
+  frontend:

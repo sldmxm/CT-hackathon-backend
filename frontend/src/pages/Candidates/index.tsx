@@ -1,0 +1,1 @@
+export { CandidatesPage } from './page';

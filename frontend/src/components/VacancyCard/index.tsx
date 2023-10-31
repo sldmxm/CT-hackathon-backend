@@ -1,0 +1,1 @@
+export { VacancyCardContainer } from './container';
