@@ -67,5 +67,5 @@ class Api {
   }
 }
 
-export const api = new Api('http://130.193.36.223/api/v1');
+export const api = new Api('http://backend:8000/api/v1');
 
