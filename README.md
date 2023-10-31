@@ -20,7 +20,7 @@
 
 - Полная документация по работе с API http://localhost/api/docs/redoc/ и http://localhost/api/docs/swagger/
 
-### Разворачиваем проект локально для разработки
+### Разворачиваем проект локально
 1. Склонируйте проект, перейдите в папку `/backend`
     ```shell
     git clone git@github.com:sldmxm/CT-hackathon-backend.git
@@ -31,7 +31,7 @@
     poetry shell
     poetry install
     ```
-3. Обновите субмодуль с фронтом
+3. ~~Обновите субмодуль с фронтом~~ (не актуально, лежит в папке frontend)
    ```shell
    git submodule init
    git submodule update --remote
@@ -40,9 +40,14 @@
     ```
     python backend/manage.py migrate
     ```
-5. Установите pre-commit хуки
+5. Установите pre-commit хуки (для разработки)
     ```shell
     pre-commit install --all
+    ```
+
+6. Разверните контейнеры из infa
+    ```shell
+    docker-compose up -d --build
     ```
 
 Файл `.env` должен находиться в корневой папке проекта. Если вы решите не создавать свой `.env` файл - в проекте предусмотрен файл `.env_local`, обеспечивающий переменные для базовой работы на локальном уровне.
@@ -54,6 +59,7 @@ python manage.py filldb
 ```
 Команда заполняет базу тестовыми данными, справочники берет из директории /backend/data/
 В ней лежат csv названия которых совпадают с названиями моделей, в которые они будут загружены.
+На несколько вакансий назначает автором администратора, которого тоже добавляет.
 ```
 python manage.py superuser
 ```
