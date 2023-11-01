@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { RouteObject, createBrowserRouter } from 'react-router-dom';
 
 import { Layout } from '../../layout';
+import { CandidatesPage } from '../Candidates';
 import { MainPageVacancy } from '../MainPageVacancy';
 import { VacancyPage } from '../VacancyPage';
 
@@ -23,8 +24,8 @@ const routes: RouteObject[] = [
         element: <VacancyPage />,
       },
       {
-        path: 'resumelist',
-        element: <span></span>,
+        path: 'candidates',
+        element: <CandidatesPage />,
       },
     ],
   },

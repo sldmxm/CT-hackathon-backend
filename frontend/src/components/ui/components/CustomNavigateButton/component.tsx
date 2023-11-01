@@ -14,7 +14,7 @@ const theme = createTheme({
         },
         indicator: {
           height: 1,
-          backgroundColor: 'var(--primary-black-500, #797980)',
+          backgroundColor: 'var(--interface-main-color-black-500, #797980)',
         },
         flexContainer: {
           gap: 20,

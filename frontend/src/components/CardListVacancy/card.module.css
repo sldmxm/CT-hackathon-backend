@@ -28,7 +28,7 @@
 }
 
 .Cardlist::-webkit-scrollbar-thumb {
-  background: var(--primary-grey, #d9d9d9);
+  background: var(--interface-main-color-grey, #d9d9d9);
   border-radius: 4px;
 }
 
