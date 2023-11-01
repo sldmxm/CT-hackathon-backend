@@ -9,7 +9,7 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          background: 'var(--primary-white, #FFF)',
+          background: 'var(--interface-main-color-white, #FFF)',
           borderRadius: '20px',
           boxShadow:
             '0px 4px 6px 0px rgba(176, 190, 197, 0.15), 0px 8px 24px 0px rgba(176, 190, 197, 0.15)',

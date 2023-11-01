@@ -1,134 +1,133 @@
 .Header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .Company {
-    display: flex;
-    gap: 12px;
+  display: flex;
+  gap: 12px;
 }
 
 .img {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    border-radius: 40px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 40px;
 }
 
 .Name {
-    font-family: "YS Text", sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 16px;
-    color: var(--primary-black-900, #1A1B22);
+  font-family: 'YS Text', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--interface-main-color-black-900, #1a1b22);
 }
 
 .Sill {
-    font-family: "YS Text", sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 16px;
-    color: var(--primary-black-500, #797980);
+  font-family: 'YS Text', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  color: var(--interface-main-color-black-500, #797980);
 }
 
 .Button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    width: 24px;
-    height: 24px;
-    padding: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
 }
 
 .Post {
-    margin: 0;
+  margin: 0;
 
-    font-family: "YS Display", sans-serif;
-    font-size: 20px;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 24px;
-    color: var(--primary-black-900, #1A1B22)
+  font-family: 'YS Display', sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 24px;
+  color: var(--interface-main-color-black-900, #1a1b22);
 }
 
 .PostDate {
-    margin: 4px 0 0;
+  margin: 4px 0 0;
 
-    font-family: "YS Text", sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 16px;
-    color: var(--primary-black-500, #797980)
+  font-family: 'YS Text', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 16px;
+  color: var(--interface-main-color-black-500, #797980);
 }
 
 .Tegs {
-    display: flex;
-    flex-grow: 1;
-    flex-wrap: wrap;
-    gap: 8px;
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  gap: 8px;
 
-    max-width: 356px;
-    min-height: 56px;
+  max-width: 356px;
+  min-height: 56px;
 }
 
 .Teg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    width: fit-content;
-    height: 24px;
-    height: fit-content;
+  width: fit-content;
+  height: 24px;
+  height: fit-content;
 
-    border: 1px solid var(--additional-blue-light, #ACCCFF);
-    border-radius: 16px;
+  border: 1px solid var(--interface-additional-color-blue-light, #acccff);
+  border-radius: 16px;
 }
 
 .TegText {
-    padding: 0 12px;
+  padding: 0 12px;
 
-    font-family: "YS Text", sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 16px;
-    white-space: nowrap;
+  font-family: 'YS Text', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 16px;
+  white-space: nowrap;
 }
 
 .Status {
-    display: flex;
+  display: flex;
 }
 
 .Point {
-    width: 8px;
-    height: 8px;
-    margin: 0;
+  width: 8px;
+  height: 8px;
+  margin: 0;
 
-    border: 2px solid var(--primary-white, #FFF);
-    border-radius: 50%;
+  border: 2px solid var(--interface-main-color-white, #fff);
+  border-radius: 50%;
 }
 
 .Point_active {
-    background: var(--additional-green, #87CC9E);
-
+  background: var(--interface-additional-color-green, #87cc9e);
 }
 
 .Point_disable {
-    background: var(--primary-red, #FF0200);
+  background: var(--interface-main-color-red, #ff0200);
 }
 
 .Text {
-    margin: 0 0 0 2px;
-    margin: 0;
+  margin: 0 0 0 2px;
+  margin: 0;
 
-    font-family: "YS Text", sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 12px;
-    color: var(--primary-black-500, #797980);
+  font-family: 'YS Text', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 12px;
+  color: var(--interface-main-color-black-500, #797980);
 }

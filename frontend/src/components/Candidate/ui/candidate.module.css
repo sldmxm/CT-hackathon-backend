@@ -31,5 +31,5 @@
 }
 
 .active {
-  border: 1px solid var(--primary-blue-main, #1d6bf3);
+  border: 1px solid var(--interface-main-color-blue-base, #1d6bf3);
 }
