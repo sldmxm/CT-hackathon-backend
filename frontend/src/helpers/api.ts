@@ -2,7 +2,7 @@ export type TPage = number | 'next' | 'prev';
 
 class Api {
   #token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxMTk1OTQwLCJpYXQiOjE2OTg2MDM5NDAsImp0aSI6IjAzNTZhYjZhNGQ4ZDQzODE5MTIxN2Q0MTc2NTZlM2RiIiwidXNlcl9pZCI6MX0.27VDMALGqCZf6FnCsW6QuUSmnE2zKrxK_UJG5xXecLI';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAxMzE2Nzk5LCJpYXQiOjE2OTg3MjQ3OTksImp0aSI6IjZmNjVjN2E1NjAwNTRhMTFiOGZlNThhOGM0Yjk5OWQ0IiwidXNlcl9pZCI6MX0.DFdUs8n5c5bG8u8w3wotQu0xEm6R5BQmyfVWwVXMJmk';
   constructor(public url: string) {
     this.url = url;
   }
@@ -67,4 +67,4 @@ class Api {
   }
 }
 
-export const api = new Api('http://130.193.36.223/api/v1');
+export const api = new Api('/api/v1');
